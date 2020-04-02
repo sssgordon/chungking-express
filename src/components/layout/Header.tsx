@@ -11,7 +11,7 @@ const Header = () => {
 
   return (
     <header>
-      <LinkType to='/'>Fill Simple</LinkType>
+      <LinkType to='/'>Phill Simple</LinkType>
       <Cart visible={cartIsOpen} />
       <button onClick={() => toggleCart()}>
         {cartIsOpen ? 'Close cart' : 'Open cart'}

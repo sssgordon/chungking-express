@@ -1,4 +1,6 @@
 [build]
   command = "gatsby build && netlify-lambda build src/netlify-functions"
   functions = "./netlify-functions"
+  publish = "public/"
+
 
