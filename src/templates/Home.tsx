@@ -1,9 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-
 import SEO from '../components/shared/SEO'
-
-import { useAddItemToCart, useLayout, useToggleCart } from '../hooks'
 
 export interface homeProps {
   data: {
@@ -17,24 +14,20 @@ export interface homeProps {
 const Home = ({ data: { contentfulHome } }: homeProps) => {
   const { seoTitle, seoDescription } = contentfulHome
 
-  const StoreFrontID =
-    'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMzE0Mzg0OTU0OTk2MA=='
-
-  const addItemToCart = useAddItemToCart()
-  const toggleCart = useToggleCart()
-  const { cartIsOpen } = useLayout()
-
-  const handleAddToCart = async () => {
-    await addItemToCart(StoreFrontID, 1)
-    if (!cartIsOpen) {
-      toggleCart()
-    }
-  }
-
   return (
     <>
       <SEO title={seoTitle} description={seoDescription} />
-      <button onClick={() => handleAddToCart()}>Add to cart</button>
+      <br />
+      <br />
+      <h1>Phill Simple</h1>
+      <img
+        style={{
+          width: '100%',
+        }}
+        src='https://images.cdn.superguide.nl/fx_ZxsG2pfmkAre6rBFIz4FYm4s=/1200x630/smart/superguide.nl/s3fs-public/main_media/wtf_dr._phil_zet_huis_met_bizarre_inrichting_te_koop.jpg?itok=iHzszsbk&nid=30255'
+      />
+      <br />
+      <br />
     </>
   )
 }

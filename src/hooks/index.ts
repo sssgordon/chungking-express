@@ -25,3 +25,6 @@ export { useForgetPasswordCustomer } from './user/useForgetPasswordCustomer'
 export { useResetPasswordCustomer } from './user/useResetPasswordCustomer'
 export { useUpdateCustomer } from './user/useUpdateCustomer'
 export { useLogoutCustomer } from './user/useLogoutCustomer'
+
+export { useProductViewTracking } from './tracking/useProductViewTracking'
+export { useAddToCartTracking } from './tracking/useAddToCartTracking'

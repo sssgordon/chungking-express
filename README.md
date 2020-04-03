@@ -11,16 +11,20 @@ A simpel opinionated starter to build a headles shopify store with the JAMstack 
 - 👨‍💻 TYPESCRIPT
 - 🛒 Shopping Cart create powered by Shopify Buy SDK
 - 💆‍♀️ Headless Account Managements via `/account/*` with Netlify functions
-- 📸 gatsby-image
+- 🚚 TAG manager(delayed) setup for optimal perforamance with fully working GA & Facebook pixel intergration.
 - ✨ Easy styling with VW
 - 🔧 SEO component
 - 🧰 Contentful Richtext component
 - 🚀 No redux we use context for state managemennt
 - 💯 Google performance of 100 out of the box
+- 📸 gatsby-image
+
 
 ## To do
 
-- [ ] Tag manager
+- [ ] Favicon
+- [ ] Manifest
+- [ ] Add loading, error state to cart hooks
 - [ ] Multicurrency
 - [ ] Change adress in account
 - [ ] Add adress to account
@@ -35,6 +39,7 @@ A simpel opinionated starter to build a headles shopify store with the JAMstack 
   - [Layout hooks](#Layout-hooks)
   - [Shop hooks](#Shop-hooks)
   - [User hooks](#User-hooks)
+  - [Tracking hooks](#Tracking-hooks)
 
 ## Setup
 
@@ -43,10 +48,11 @@ A simpel opinionated starter to build a headles shopify store with the JAMstack 
    1. Create an contentmodel called Home
    2. Add an image in the media libary(otherwise an error will occur).
 3. Setup a new gatsby project `gatsby new PROJECT_NAME https://github.com/askphill/phill-simple`
-4. Create new github & do initial commit
-5. Add env variables to project
-6. Setup netlify site with all `.env` variables
-7. Test your setup by adding a storefront id of the product in the `storefrontID` on the homepage and add to cart!😃
+4. Create new github & do initial commit.
+5. Add env variables to project.
+6. Setup netlify site with all `.env` variables.
+7. On the shopify site upload `theme.liquid` from the `/shopify` folder.
+8. Test your setup by adding a storefront id of the product in the `storefrontID` on the homepage and add to cart!😃
 
 > ⚠️ If you dont want to use the acount pages and functionalty remove:
 > `src/hooks/user`, `src/pages/account.tsx`, `src/components/account`, `src/components/account`, `src/netlify-functions` & `netlify.toml`,
@@ -61,9 +67,25 @@ CONTENTFUL_ACCESS_TOKEN=EOJCLy4DEP3_KRXsCvI9WSEUSVDwEG9lZPL7ojN4cbI //Contentful
 SHOPIFY_STORE=headless-demo-store //Shopify store before .myshopify.com handle
 SHOPIFY_ACCES_TOKEN=6d8ab10cb0eb69c943d7614d756e44a4  //Storefront api key
 FUNCTIONS_DOMAIN=fill-buysdk //Netlify before .netlify.com handle
+GTM_ID=GTM-TW6FDQ6 // tag manager id
+GTM_DELAY=1000 // delay of tag manager load
 ```
-
 Do `npm install` and `gatsby develop` the project should be working. On `home.tsx` you can change the `storefrontID` of a product in the connected shopify account to see if the cart works.
+
+### Setup tracking
+
+If you follow these steps the site will have full support for GA and FB.
+
+1. Create a container in tag manager
+2. Import  GTM code in .env file
+3. In tag manager go to admin -> Import Container and import  the `json.js` from `/GTM`.
+4. Go to google analytics go to ADMIN -> Property tracking info -> USER-ID -> Set on `ON`
+5. Go to Tag manager and select variables change the `FB pixel` and `GA code` to the rigth tracking id.
+6. At the `GA - code` in tag manager set the auto link domains of the shopify checkout
+7. In google analytics set the settings to use WITH USER ID.
+8. Add the GA and FB pixel in the shopify setings
+9. Now pageview, product detail view and product add to cart are working if you use the [hooks](#Tracking-hooks)
+
 
 ## Styling
 
@@ -168,6 +190,12 @@ The hooks that are used to add items to cart and go to cart
 - [useRegisterCustomer](<#useRegisterCustomer()>)
 - [useActivateCustomer](<#useActivateCustomer()>)
 - [useResetPasswordCustomer](<#useResetPasswordCustomer()>)
+
+**Tracking hooks:** Hooks that  trigger the data layer so GA and FB can track the conversion
+
+- [useProductViewTracking](<#useProductViewTracking>)
+- [useAddToCartTracking](<#useAddToCartTracking>)
+
 
 ## Layout hooks
 
@@ -983,6 +1011,51 @@ const account = () => {
       </form>
     </div>
   )
+}
+```
+
+## Tracking hooks
+
+### useProductViewTracking
+
+The `useProductViewTracking()` hook. With this hook we can let Tag manager know we view a product it needs the following items: `StoreFrontID` the storefront  id of the product, `title` the title of the product, user `price` price of the product & `location` the location prop from gatsby.
+
+```javascript
+import React, { useState } from 'react'
+import { useProductViewTracking } from '../hooks'
+
+const product = ({ location }) => {
+  const StoreFrontID =
+    'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMzE0Mzg0OTU0OTk2MA=='
+  const Title = 'test product'
+  const Price = 200
+
+
+  useEffect(() => {
+    useProductViewTracking(StoreFrontID, Title, Price, location)
+  }, [])
+}
+```
+
+### useAddToCartTracking
+
+The `useAddToCartTracking()` hook. With this hook we can let Tag manager know we add a product to the cart it needs: `StoreFrontID` the storefront  id of the product, `title` the title of the product, user `price` price of the product & `location` the location and the `amount`, that is for the amount of items that are added to the cart.
+
+```javascript
+import React, { useState } from 'react'
+import { useAddToCartTracking } from '../hooks'
+
+const product = ({ location }) => {
+  const StoreFrontID =
+    'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMzE0Mzg0OTU0OTk2MA=='
+  const Title = 'test product'
+  const Price = 200
+
+
+  const handleAddToCart = async () => {
+    await addItemToCart(StoreFrontID, 1)
+    useAddToCartTracking(StoreFrontID, Title, Price, location, 1)
+  }
 }
 ```
 

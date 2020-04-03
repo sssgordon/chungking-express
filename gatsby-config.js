@@ -18,5 +18,13 @@ module.exports = {
       resolve: `gatsby-plugin-create-client-paths`,
       options: { prefixes: [`/account/*`] },
     },
+    {
+      resolve: 'gatsby-plugin-google-tagmanager-timeout',
+      options: {
+        id: process.env.GTM_ID,
+        includeInDevelopment: true,
+        timeout: process.env.GTM_DELAY || 1000, // default value is 1000ms
+      },
+    },
   ],
 }
