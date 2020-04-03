@@ -2,6 +2,8 @@
 
 A simpel opinionated starter to build a headles shopify store with the JAMstack of 99kB and utilize all shopify fuctionality.
 
+See live version [https://phill-simple.netlify.com/](https://phill-simple.netlify.com/)
+
 > ⚠️ Currently no multiple currencies support out of the box
 
 ## Features
@@ -19,11 +21,11 @@ A simpel opinionated starter to build a headles shopify store with the JAMstack 
 - 💯 Google performance of 100 out of the box
 - 📸 gatsby-image
 
-
 ## To do
 
 - [ ] Favicon
 - [ ] Manifest
+- [ ] Add email to checkout if logged in
 - [ ] Add loading, error state to cart hooks
 - [ ] Multicurrency
 - [ ] Change adress in account
@@ -70,6 +72,7 @@ FUNCTIONS_DOMAIN=fill-buysdk //Netlify before .netlify.com handle
 GTM_ID=GTM-TW6FDQ6 // tag manager id
 GTM_DELAY=1000 // delay of tag manager load
 ```
+
 Do `npm install` and `gatsby develop` the project should be working. On `home.tsx` you can change the `storefrontID` of a product in the connected shopify account to see if the cart works.
 
 ### Setup tracking
@@ -77,15 +80,14 @@ Do `npm install` and `gatsby develop` the project should be working. On `home.ts
 If you follow these steps the site will have full support for GA and FB.
 
 1. Create a container in tag manager
-2. Import  GTM code in .env file
-3. In tag manager go to admin -> Import Container and import  the `json.js` from `/GTM`.
+2. Import GTM code in .env file
+3. In tag manager go to admin -> Import Container and import the `json.js` from `/GTM`.
 4. Go to google analytics go to ADMIN -> Property tracking info -> USER-ID -> Set on `ON`
 5. Go to Tag manager and select variables change the `FB pixel` and `GA code` to the rigth tracking id.
 6. At the `GA - code` in tag manager set the auto link domains of the shopify checkout
 7. In google analytics set the settings to use WITH USER ID.
 8. Add the GA and FB pixel in the shopify setings
 9. Now pageview, product detail view and product add to cart are working if you use the [hooks](#Tracking-hooks)
-
 
 ## Styling
 
@@ -191,11 +193,10 @@ The hooks that are used to add items to cart and go to cart
 - [useActivateCustomer](<#useActivateCustomer()>)
 - [useResetPasswordCustomer](<#useResetPasswordCustomer()>)
 
-**Tracking hooks:** Hooks that  trigger the data layer so GA and FB can track the conversion
+**Tracking hooks:** Hooks that trigger the data layer so GA and FB can track the conversion
 
-- [useProductViewTracking](<#useProductViewTracking>)
-- [useAddToCartTracking](<#useAddToCartTracking>)
-
+- [useProductViewTracking](#useProductViewTracking)
+- [useAddToCartTracking](#useAddToCartTracking)
 
 ## Layout hooks
 
@@ -1018,7 +1019,7 @@ const account = () => {
 
 ### useProductViewTracking
 
-The `useProductViewTracking()` hook. With this hook we can let Tag manager know we view a product it needs the following items: `StoreFrontID` the storefront  id of the product, `title` the title of the product, user `price` price of the product & `location` the location prop from gatsby.
+The `useProductViewTracking()` hook. With this hook we can let Tag manager know we view a product it needs the following items: `StoreFrontID` the storefront id of the product, `title` the title of the product, user `price` price of the product & `location` the location prop from gatsby.
 
 ```javascript
 import React, { useState } from 'react'
@@ -1030,7 +1031,6 @@ const product = ({ location }) => {
   const Title = 'test product'
   const Price = 200
 
-
   useEffect(() => {
     useProductViewTracking(StoreFrontID, Title, Price, location)
   }, [])
@@ -1039,7 +1039,7 @@ const product = ({ location }) => {
 
 ### useAddToCartTracking
 
-The `useAddToCartTracking()` hook. With this hook we can let Tag manager know we add a product to the cart it needs: `StoreFrontID` the storefront  id of the product, `title` the title of the product, user `price` price of the product & `location` the location and the `amount`, that is for the amount of items that are added to the cart.
+The `useAddToCartTracking()` hook. With this hook we can let Tag manager know we add a product to the cart it needs: `StoreFrontID` the storefront id of the product, `title` the title of the product, user `price` price of the product & `location` the location and the `amount`, that is for the amount of items that are added to the cart.
 
 ```javascript
 import React, { useState } from 'react'
@@ -1051,11 +1051,9 @@ const product = ({ location }) => {
   const Title = 'test product'
   const Price = 200
 
-
   const handleAddToCart = async () => {
     await addItemToCart(StoreFrontID, 1)
     useAddToCartTracking(StoreFrontID, Title, Price, location, 1)
   }
 }
 ```
-
