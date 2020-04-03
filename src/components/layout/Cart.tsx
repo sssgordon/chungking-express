@@ -10,16 +10,20 @@ const Cart = ({ visible }: { visible: boolean }) => {
 
   return (
     <section style={{ display: visible ? 'block' : 'none' }}>
-      <ul>
-        {items.length >= 1
-          ? items.map(item => (
+      {items.length >= 1 ? (
+        <div>
+          <ul>
+            {items.map(item => (
               <li key={item.title}>
                 <LineItem item={item} />
               </li>
-            ))
-          : 'no items in cart'}
-      </ul>
-      <a href={webUrl}>checkout</a>
+            ))}
+          </ul>
+          <a href={webUrl}>checkout</a>
+        </div>
+      ) : (
+        'no items in cart'
+      )}
     </section>
   )
 }
