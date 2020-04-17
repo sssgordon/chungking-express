@@ -52,7 +52,7 @@ export const useRegisterCustomer = () => {
       setState({ response: null, loading: true, error: null })
       try {
         const data = await fetch(
-          `https://${process.env.FUNCTIONS_DOMAIN}.netlify.com/.netlify/functions/register`,
+          `https://${process.env.FUNCTIONS_DOMAIN}.netlify.app/.netlify/functions/register`,
           {
             method: 'POST',
             body: JSON.stringify({

@@ -20,7 +20,7 @@ export const useLoginCustomer = () => {
       setState({ response: null, loading: true, error: null })
       try {
         const data = await fetch(
-          `https://${process.env.FUNCTIONS_DOMAIN}.netlify.com/.netlify/functions/login`,
+          `https://${process.env.FUNCTIONS_DOMAIN}.netlify.app/.netlify/functions/login`,
           {
             method: 'POST',
             body: JSON.stringify({

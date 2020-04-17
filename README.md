@@ -2,7 +2,7 @@
 
 A simpel opinionated starter to build a headles shopify store with the JAMstack of 99kB and utilize all shopify fuctionality.
 
-See live version [https://phill-simple.netlify.com/](https://phill-simple.netlify.com/)
+See live version [https://phill-simple.netlify.app/](https://phill-simple.netlify.app/)
 
 > ⚠️ Currently no multiple currencies support out of the box
 
@@ -68,7 +68,7 @@ CONTENTFUL_ID=1z6zjvxt0xg3 //the contentfull space id
 CONTENTFUL_ACCESS_TOKEN=EOJCLy4DEP3_KRXsCvI9WSEUSVDwEG9lZPL7ojN4cbI //Contentfull acces token
 SHOPIFY_STORE=headless-demo-store //Shopify store before .myshopify.com handle
 SHOPIFY_ACCES_TOKEN=6d8ab10cb0eb69c943d7614d756e44a4  //Storefront api key
-FUNCTIONS_DOMAIN=fill-buysdk //Netlify before .netlify.com handle
+FUNCTIONS_DOMAIN=fill-buysdk //Netlify before .netlify.app handle
 GTM_ID=GTM-TW6FDQ6 // tag manager id
 GTM_DELAY=1000 // delay of tag manager load
 ```

@@ -58,7 +58,7 @@ export const useActivateCustomer = () => {
         }
 
         const data = await fetch(
-          `https://${process.env.FUNCTIONS_DOMAIN}.netlify.com/.netlify/functions/activate`,
+          `https://${process.env.FUNCTIONS_DOMAIN}.netlify.app/.netlify/functions/activate`,
           {
             method: 'POST',
             body: JSON.stringify(body),

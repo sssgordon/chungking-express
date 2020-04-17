@@ -21,7 +21,7 @@ export const useUpdateCustomer = () => {
       setState({ response: null, loading: true, error: null })
       try {
         const data = await fetch(
-          `https://${process.env.FUNCTIONS_DOMAIN}.netlify.com/.netlify/functions/update-account`,
+          `https://${process.env.FUNCTIONS_DOMAIN}.netlify.app/.netlify/functions/update-account`,
           {
             method: 'POST',
             body: JSON.stringify(user.token),
