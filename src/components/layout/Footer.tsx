@@ -2,7 +2,7 @@ import React from 'react'
 
 const Footer = () => (
   <footer>
-    Phill Starter © 2020 - <a href='https://www.askphill.com'>Ask Phill</a>
+    Phill Simple © 2020 - <a href='https://www.askphill.com'>Ask Phill</a>
   </footer>
 )
 
