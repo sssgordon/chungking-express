@@ -58,7 +58,7 @@ export const useResetPasswordCustomer = () => {
           },
         }
         const data = await fetch(
-          `https://${process.env.FUNCTIONS_DOMAIN}/.netlify/functions/reset-password`,
+          `https://${process.env.FUNCTIONS_DOMAIN}.netlify.app/.netlify/functions/reset-password`,
           {
             method: 'POST',
             body: JSON.stringify(body),
