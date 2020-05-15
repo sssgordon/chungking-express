@@ -8,7 +8,7 @@ export const Portal = () => {
   const [logoutCustomer, { response, error }] = useLogoutCustomer()
   const [updateCustomer] = useUpdateCustomer()
 
-  const handleLogout = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     await logoutCustomer(user)
   }
