@@ -57,13 +57,10 @@ export const useActivateCustomer = () => {
           },
         }
 
-        const data = await fetch(
-          `https://${process.env.FUNCTIONS_DOMAIN}.netlify.app/.netlify/functions/activate`,
-          {
-            method: 'POST',
-            body: JSON.stringify(body),
-          },
-        )
+        const data = await fetch(`/.netlify/functions/activate`, {
+          method: 'POST',
+          body: JSON.stringify(body),
+        })
         const res = await data.json()
         if (res.error) {
           setState({

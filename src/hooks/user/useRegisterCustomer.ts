@@ -51,18 +51,15 @@ export const useRegisterCustomer = () => {
     } else if (email && passwordField1 && firstName && lastName) {
       setState({ response: null, loading: true, error: null })
       try {
-        const data = await fetch(
-          `https://${process.env.FUNCTIONS_DOMAIN}.netlify.app/.netlify/functions/register`,
-          {
-            method: 'POST',
-            body: JSON.stringify({
-              email,
-              password: passwordField1,
-              firstName,
-              lastName,
-            }),
-          },
-        )
+        const data = await fetch(`/.netlify/functions/register`, {
+          method: 'POST',
+          body: JSON.stringify({
+            email,
+            password: passwordField1,
+            firstName,
+            lastName,
+          }),
+        })
 
         const res = await data.json()
         if (res.error) {

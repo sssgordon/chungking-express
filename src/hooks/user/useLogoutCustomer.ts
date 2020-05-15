@@ -20,15 +20,12 @@ export const useLogoutCustomer = () => {
     if (user) {
       setState({ response: null, loading: true, error: null })
       try {
-        const data = await fetch(
-          `https://${process.env.FUNCTIONS_DOMAIN}.netlify.app/.netlify/functions/logout`,
-          {
-            method: 'POST',
-            body: JSON.stringify({
-              accessToken: user.token.accessToken,
-            }),
-          },
-        )
+        const data = await fetch(`/.netlify/functions/logout`, {
+          method: 'POST',
+          body: JSON.stringify({
+            accessToken: user.token.accessToken,
+          }),
+        })
         const res = await data
 
         if (res.status != 200) {

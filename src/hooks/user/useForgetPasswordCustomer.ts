@@ -17,15 +17,12 @@ export const useForgetPasswordCustomer = () => {
     if (email) {
       setState({ response: null, loading: true, error: null })
       try {
-        const data = await fetch(
-          `https://${process.env.FUNCTIONS_DOMAIN}.netlify.app/.netlify/functions/forgot-password`,
-          {
-            method: 'POST',
-            body: JSON.stringify({
-              email,
-            }),
-          },
-        )
+        const data = await fetch(`/.netlify/functions/forgot-password`, {
+          method: 'POST',
+          body: JSON.stringify({
+            email,
+          }),
+        })
         const res = await data.json()
         if (res.error) {
           setState({

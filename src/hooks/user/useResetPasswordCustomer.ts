@@ -57,13 +57,10 @@ export const useResetPasswordCustomer = () => {
             password: passwordField1,
           },
         }
-        const data = await fetch(
-          `https://${process.env.FUNCTIONS_DOMAIN}.netlify.app/.netlify/functions/reset-password`,
-          {
-            method: 'POST',
-            body: JSON.stringify(body),
-          },
-        )
+        const data = await fetch(`/.netlify/functions/reset-password`, {
+          method: 'POST',
+          body: JSON.stringify(body),
+        })
         const res = await data.json()
         if (res.error) {
           setState({

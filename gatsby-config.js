@@ -1,8 +1,21 @@
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
+const proxy = require('http-proxy-middleware')
 
 module.exports = {
+  // Handles local dev for the netlify functions
+  developMiddleware: app => {
+    app.use(
+      '/.netlify/functions/',
+      proxy({
+        target: 'http://localhost:9000',
+        pathRewrite: {
+          '/.netlify/functions/': '',
+        },
+      }),
+    )
+  },
   plugins: [
     'gatsby-plugin-typescript',
     'gatsby-plugin-react-helmet',

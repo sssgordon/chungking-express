@@ -32,17 +32,17 @@ const Header = () => {
       {menuIsOpen && (
         <ul>
           <li>
-            <LinkType to='product' onClick={() => toggleMenu()}>
+            <LinkType to='/product' onClick={() => toggleMenu()}>
               Product
             </LinkType>
           </li>
           <li>
-            <LinkType to='account' onClick={() => toggleMenu()}>
+            <LinkType to='/account' onClick={() => toggleMenu()}>
               Account
             </LinkType>
           </li>
           <li>
-            <LinkType to='404' onClick={() => toggleMenu()}>
+            <LinkType to='/404' onClick={() => toggleMenu()}>
               404
             </LinkType>
           </li>

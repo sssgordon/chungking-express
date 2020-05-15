@@ -1,3 +1,6 @@
+# build netlify functions
+functions
+
 # Logs
 logs
 *.log
@@ -71,3 +74,5 @@ yarn-error.log
 # Editor files
 # .vscode/
 .netlify-functions
+# Local Netlify folder
+.netlify

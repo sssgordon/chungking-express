@@ -9,6 +9,7 @@
     "serve:lambda": "netlify-lambda serve src/netlify-functions",
     "__postinstall": "netlify-lambda install",
     "develop": "gatsby develop -H 0.0.0.0",
+    "dev": "export NETLIFY_DEV=true; netlify dev:exec netlify-lambda serve netlify-functions --port 9000 --timeout 20 & netlify dev:exec gatsby develop",
     "format": "prettier --write src/**/*.js *.js",
     "start": "npm run develop"
   },
