@@ -1,6 +1,6 @@
 # Phill Simple
 
-A simpel opinionated starter to build a headles shopify store with the JAMstack of 99kB and utilize all shopify fuctionality.
+A simple opinionated starter to build a headless shopify store with the JAMstack of 99kB and utilise all shopify fuctionality.
 
 See live version [https://phill-simple.netlify.app/](https://phill-simple.netlify.app/)
 
@@ -17,7 +17,7 @@ See live version [https://phill-simple.netlify.app/](https://phill-simple.netlif
 - ✨ Easy styling with VW
 - 🔧 SEO component
 - 🧰 Contentful Richtext component
-- 🚀 No redux we use context for state managemennt
+- 🚀 No redux we use context for state management
 - 💯 Google performance of 100 out of the box
 - 📸 gatsby-image
 
