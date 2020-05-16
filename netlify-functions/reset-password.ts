@@ -1,24 +1,21 @@
-const axios = require('axios')
+import { APIGatewayEvent } from 'aws-lambda'
+import axios from 'axios'
 
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-}
-const { SHOPIFY_STORE, SHOPIFY_ACCES_TOKEN } = process.env
+import {
+  statusReturn,
+  preparePayload,
+  shopifyConfig,
+  SHOPIFY_STORE,
+  CUSTOMER_TOKEN_QUERY,
+  CUSTOMER_RESET_QUERY,
+} from './requestConfig'
 
-const shopifyConfig = {
-  'Content-Type': 'application/json',
-  'X-Shopify-Storefront-Access-Token': SHOPIFY_ACCES_TOKEN,
-  //'X-Shopify-Storefront-Access-Token': '6d8ab10cb0eb69c943d7614d756e44a4',
-}
+let customer
 
-exports.handler = async (event: any) => {
+export const handler = async (event: APIGatewayEvent): Promise<any> => {
+  // TEST for POST request
   if (event.httpMethod !== 'POST' || !event.body) {
-    return {
-      statusCode: 400,
-      headers,
-      body: '',
-    }
+    return statusReturn(400, '')
   }
 
   let data
@@ -27,36 +24,12 @@ exports.handler = async (event: any) => {
     data = JSON.parse(event.body)
   } catch (error) {
     console.log('JSON parsing error:', error)
-
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
-        error: 'Bad request body',
-      }),
-    }
+    return statusReturn(400, { error: 'Bad request body' })
   }
-
-  const payload = {
-    query: `
-      mutation customerReset($id: ID!, $input: CustomerResetInput!) {
-        customerReset(id: $id, input: $input) {
-          userErrors {
-            field
-            message
-          }
-          customer {
-            email
-          }
-        }
-      }
-    `,
-    variables: {
-      id: data.id,
-      input: data.input,
-    },
-  }
-
-  let customer
+  const payload = preparePayload(CUSTOMER_RESET_QUERY, {
+    id: data.id,
+    input: data.input,
+  })
 
   try {
     customer = await axios({
@@ -72,41 +45,19 @@ exports.handler = async (event: any) => {
       customer = customer.data.data.customerReset.customer
     }
   } catch (err) {
-    let response = {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({
-        error: err[0].message,
-      }),
-    }
-    return response
+    return statusReturn(500, { error: err[0].message })
   }
 
-  const loginPayload = {
-    query: `mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
-        customerAccessTokenCreate(input: $input) {
-          userErrors {
-            field
-            message
-          }
-          customerAccessToken {
-            accessToken
-            expiresAt
-          }
-        }
-      }
-    `,
-    variables: {
-      input: {
-        email: customer.email,
-        password: data.input.password,
-      },
+  const loginPayload = preparePayload(CUSTOMER_TOKEN_QUERY, {
+    input: {
+      email: customer.email,
+      password: data.input.password,
     },
-  }
+  })
 
   try {
     let token = await axios({
-      url: `https://headless-demo-store.myshopify.com/api/graphql`,
+      url: `https://${SHOPIFY_STORE}.myshopify.com/api/graphql`,
       method: 'POST',
       headers: shopifyConfig,
       data: JSON.stringify(loginPayload),
@@ -117,24 +68,12 @@ exports.handler = async (event: any) => {
       token =
         token.data.data.customerAccessTokenCreate.customerAccessToken
           .accessToken
-      let response = {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          token,
-          customer,
-        }),
-      }
-      return response
+      return statusReturn(200, {
+        token,
+        customer,
+      })
     }
   } catch (err) {
-    let response = {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({
-        error: err.message,
-      }),
-    }
-    return response
+    return statusReturn(500, { error: err.message })
   }
 }

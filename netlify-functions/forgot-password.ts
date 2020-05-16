@@ -1,56 +1,31 @@
-const axios = require('axios')
+import { APIGatewayEvent } from 'aws-lambda'
+import axios from 'axios'
 
-const { SHOPIFY_STORE, SHOPIFY_ACCES_TOKEN } = process.env
+import {
+  statusReturn,
+  preparePayload,
+  shopifyConfig,
+  SHOPIFY_STORE,
+  CUSTOMER_RECOVERY_QUERY,
+} from './requestConfig'
 
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
+let data: {
+  email?: string
 }
 
-const shopifyConfig = {
-  'Content-Type': 'application/json',
-  'X-Shopify-Storefront-Access-Token': SHOPIFY_ACCES_TOKEN,
-}
-
-exports.handler = async (event, context, callback) => {
-  console.log('found?')
-  if (event.httpMethod !== 'POST' || !event.body) {
-    return {
-      statusCode: 400,
-      headers,
-      body: '',
-    }
-  }
-
-  let data: {
-    email?: string
-  }
+export const handler = async (event: APIGatewayEvent): Promise<any> => {
+  if (event.httpMethod !== 'POST' || !event.body) return statusReturn(400, '')
 
   try {
     data = JSON.parse(event.body)
   } catch (error) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
-        error: 'Bad request body',
-      }),
-    }
+    console.error('JSON parsing error:', error)
+    return statusReturn(400, { error: 'Bad Request Body' })
   }
-  const payload = {
-    query: `
-      mutation customerRecover($email: String!) {
-        customerRecover(email: $email) {
-          userErrors {
-            field
-            message
-          }
-        }
-      }
-    `,
-    variables: {
-      email: data.email,
-    },
-  }
+
+  const payload = preparePayload(CUSTOMER_RECOVERY_QUERY, {
+    email: data.email,
+  })
 
   try {
     const customer = await axios({
@@ -66,21 +41,9 @@ exports.handler = async (event, context, callback) => {
     } else if (errors && errors.length > 0) {
       throw errors
     } else {
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          customerRecover: customerRecover,
-        }),
-      }
+      return statusReturn(200, { customerRecover })
     }
   } catch (err) {
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({
-        error: err[0].message,
-      }),
-    }
+    return statusReturn(500, { error: err[0].message })
   }
 }

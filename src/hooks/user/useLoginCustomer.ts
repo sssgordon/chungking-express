@@ -34,6 +34,7 @@ export const useLoginCustomer = () => {
             error: res.error,
           })
         } else {
+          console.log(res)
           setCustomer(res, email)
           setState({
             response: res,

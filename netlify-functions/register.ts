@@ -1,75 +1,48 @@
-const axios = require('axios')
+import { APIGatewayEvent } from 'aws-lambda'
+import axios from 'axios'
 
-const { SHOPIFY_STORE, SHOPIFY_ACCES_TOKEN } = process.env
+import {
+  statusReturn,
+  preparePayload,
+  shopifyConfig,
+  SHOPIFY_STORE,
+  CUSTOMER_TOKEN_QUERY,
+  CUSTOMER_CREATE_QUERY,
+} from './requestConfig'
 
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-}
-
-const shopifyConfig = {
-  'Content-Type': 'application/json',
-  'X-Shopify-Storefront-Access-Token': SHOPIFY_ACCES_TOKEN,
-}
-
-exports.handler = async (event, context, callback) => {
+export const handler = async (event: APIGatewayEvent): Promise<any> => {
+  // TEST for POST request
   if (event.httpMethod !== 'POST' || !event.body) {
-    return {
-      statusCode: 400,
-      headers,
-      body: '',
-    }
+    return statusReturn(400, '')
   }
 
-  let data: {
-    email: string
-    password: string
-    firstName: string
-    lastName: string
-  }
+  let data
 
   try {
     data = JSON.parse(event.body)
   } catch (error) {
     console.log('JSON parsing error:', error)
-
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
-        error: 'Bad request body',
-      }),
-    }
+    return statusReturn(400, { error: 'Bad request body' })
   }
 
-  const payload = {
-    query: `mutation customerCreate($input: CustomerCreateInput!) {
-      customerCreate(input: $input) {
-        userErrors {
-          field
-          message
-        }
-        customer {
-          id
-        }
-        customerUserErrors {
-          field
-          message
-        }
-      }
-    }`,
-    variables: {
-      input: {
-        email: data.email,
-        password: data.password,
-        firstName: data.firstName,
-        lastName: data.lastName,
-      },
+  console.log(`[λ: new account]`, {
+    email: data.email,
+    password: data.password,
+    firstName: data.firstName,
+    lastName: data.lastName,
+  })
+  const payload = preparePayload(CUSTOMER_CREATE_QUERY, {
+    input: {
+      email: data.email,
+      password: data.password,
+      firstName: data.firstName,
+      lastName: data.lastName,
     },
-  }
+  })
+
   try {
     let customer = await axios({
       url: `https://${SHOPIFY_STORE}.myshopify.com/api/graphql`,
-      //url: `https://headless-demo-store.myshopify.com/api/graphql`,
       method: 'POST',
       headers: shopifyConfig,
       data: JSON.stringify(payload),
@@ -81,31 +54,16 @@ exports.handler = async (event, context, callback) => {
     if (customerCreate.userErrors.length > 0) throw customerCreate.userErrors[0]
 
     // If that was successful lets log our new user in
-    const loginPayload = {
-      query: `mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
-          customerAccessTokenCreate(input: $input) {
-            userErrors {
-              field
-              message
-            }
-            customerAccessToken {
-              accessToken
-              expiresAt
-            }
-          }
-        }
-      `,
-      variables: {
-        input: {
-          email: data.email,
-          password: data.password,
-        },
+    const loginPayload = preparePayload(CUSTOMER_TOKEN_QUERY, {
+      input: {
+        email: data.email,
+        password: data.password,
       },
-    }
+    })
 
     try {
       let token = await axios({
-        url: `https://headless-demo-store.myshopify.com/api/graphql`,
+        url: `https://${SHOPIFY_STORE}.myshopify.com/api/graphql`,
         method: 'POST',
         headers: shopifyConfig,
         data: JSON.stringify(loginPayload),
@@ -114,38 +72,20 @@ exports.handler = async (event, context, callback) => {
       if (customerAccessTokenCreate.userErrors.length > 0) {
         throw customerAccessTokenCreate.userErrors
       } else {
-        token = customerAccessTokenCreate.customerAccessToken
-        let response = {
-          statusCode: 200,
-          headers,
-          body: JSON.stringify({
-            token,
-            customer: {
-              firstName: data.firstName,
-              lastName: data.lastName,
-            },
-          }),
-        }
-        return response
+        token = customerAccessTokenCreate.customerAccessToken.accessToken
+        // Manipulate the response and send some customer info back down that we can use later
+        return statusReturn(200, {
+          token,
+          customer: {
+            firstName: data.firstName,
+            lastName: data.lastName,
+          },
+        })
       }
     } catch (err) {
-      let response = {
-        statusCode: 404,
-        headers,
-        body: JSON.stringify({
-          error: err[0].message,
-        }),
-      }
-      return response
+      return statusReturn(500, { error: err[0].message })
     }
   } catch (err) {
-    let response = {
-      statusCode: 404,
-      headers,
-      body: JSON.stringify({
-        error: err.message,
-      }),
-    }
-    return response
+    return statusReturn(500, { error: err.message })
   }
 }

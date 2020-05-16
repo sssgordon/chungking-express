@@ -10,7 +10,6 @@ const headers = {
 const shopifyConfig = {
   'Content-Type': 'application/json',
   'X-Shopify-Storefront-Access-Token': SHOPIFY_ACCES_TOKEN,
-  //'X-Shopify-Storefront-Access-Token': '6d8ab10cb0eb69c943d7614d756e44a4',
 }
 
 const CUSTOMER_ADDRESS = `
@@ -102,7 +101,6 @@ exports.handler = async (event: any) => {
   try {
     let customer = await axios({
       url: `https://${SHOPIFY_STORE}.myshopify.com/api/graphql`,
-      //url: `https://headless-demo-store.myshopify.com/api/graphql`,
       method: 'POST',
       headers: shopifyConfig,
       data: JSON.stringify(payloadCustomer),

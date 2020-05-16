@@ -17,13 +17,17 @@ const Header = () => {
           width: '100%',
           display: 'flex',
           justifyContent: 'space-between',
+          backgroundColor: 'var(--dark)',
+          padding: 'calc(var(--size) / 2)',
         }}
       >
         <button onClick={() => toggleMenu()}>
           {menuIsOpen ? 'Close menu' : 'Open menu'}
         </button>
 
-        <LinkType to='/'>Phill Simple</LinkType>
+        <LinkType style={{ color: '#fff' }} to='/'>
+          Phill Simple
+        </LinkType>
 
         <button onClick={() => toggleCart()}>
           {cartIsOpen ? 'Close cart' : 'Open cart'}

@@ -1,57 +1,27 @@
-const axios = require('axios')
+import { APIGatewayEvent } from 'aws-lambda'
+import axios from 'axios'
 
-const headers = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
-}
+import {
+  statusReturn,
+  preparePayload,
+  shopifyConfig,
+  SHOPIFY_STORE,
+  CUSTOMER_LOGOUT_QUERY,
+} from './requestConfig'
 
-const { SHOPIFY_STORE, SHOPIFY_ACCES_TOKEN } = process.env
+let data
 
-const shopifyConfig = {
-  'Content-Type': 'application/json',
-  'X-Shopify-Storefront-Access-Token': SHOPIFY_ACCES_TOKEN,
-}
-
-exports.handler = async (event, context) => {
-  if (event.httpMethod !== 'POST' || !event.body) {
-    return {
-      statusCode: 400,
-      headers,
-      body: '',
-    }
-  }
-
-  let data
+export const handler = async (event: APIGatewayEvent): Promise<any> => {
+  if (event.httpMethod !== 'POST' || !event.body) return statusReturn(400, '')
 
   try {
     data = JSON.parse(event.body)
   } catch (error) {
-    console.log('JSON parsing error:', error)
-
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
-        error: 'Bad request body',
-      }),
-    }
+    return statusReturn(400, { error: 'Bad Request Body' })
   }
-
-  const payload = {
-    query: `mutation customerAccessTokenDelete($customerAccessToken: String!) {
-        customerAccessTokenDelete(customerAccessToken: $customerAccessToken) {
-          userErrors {
-            field
-            message
-          }
-          deletedAccessToken
-          deletedCustomerAccessTokenId
-        }
-      }
-    `,
-    variables: {
-      customerAccessToken: data.accessToken,
-    },
-  }
+  const payload = preparePayload(CUSTOMER_LOGOUT_QUERY, {
+    customerAccessToken: data.accessToken,
+  })
   try {
     let logout = await axios({
       url: `https://${SHOPIFY_STORE}.myshopify.com/api/graphql`,
@@ -59,20 +29,8 @@ exports.handler = async (event, context) => {
       headers: shopifyConfig,
       data: JSON.stringify(payload),
     })
-    let response = {
-      statusCode: 200,
-      headers,
-      body: '',
-    }
-    return response
+    return statusReturn(200, '')
   } catch (err) {
-    let response = {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({
-        error: err[0],
-      }),
-    }
-    return response
+    return statusReturn(500, { error: err[0] })
   }
 }
