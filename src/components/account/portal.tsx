@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
 import { navigate } from 'gatsby'
 import { useCustomer, useLogoutCustomer, useUpdateCustomer } from '../../hooks'
-
-import AddressCard from './addressCard'
+import CustomerAddressPanel from './customerAddressPanel'
 
 export const Portal = () => {
   const user = useCustomer()
@@ -27,31 +26,18 @@ export const Portal = () => {
       }, 1000)
     }
   }, [response])
-  console.log(user)
+
   return (
     <div>
       {user && (
         <div>
           Hi! {user.firstName}
           <br />
-          <br />
-          <h5>Address:</h5>
-          <ul>
-            {user.addresses && user.addresses.edges.length >= 1 ? (
-              user.addresses.edges.map(({ node }) => {
-                // console.log('order', node)
-                return <AddressCard key={node.id} address={node} />
-              })
-            ) : (
-              <li>no orders yet</li>
-            )}
-          </ul>
-          <br />
+          <CustomerAddressPanel user={user} />
           <h5>Orders:</h5>
           <ul>
             {user.orders && user.orders.edges.length >= 1 ? (
               user.orders.edges.map(({ node }) => {
-                // console.log('order', node)
                 return (
                   <li key={node.orderNumber}>
                     order number: {node.orderNumber}, price: {node.totalPrice},
@@ -60,7 +46,6 @@ export const Portal = () => {
                     <div>items:</div>
                     <ul>
                       {node.lineItems.edges.map(({ node }) => {
-                        // console.log('line item', node)
                         return (
                           <li key={node.title}>
                             {node.quantity} x {node.title} {node.variant.price}

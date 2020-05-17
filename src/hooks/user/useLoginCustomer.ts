@@ -1,3 +1,5 @@
+// import { useQuery } from 'react-query'
+// import axios from 'axios'
 import { useState } from 'react'
 import { useSetCustomer } from './useSetCustomer'
 
@@ -60,3 +62,14 @@ export const useLoginCustomer = () => {
 
   return [loginCustomer, state] as const
 }
+
+// const getPostById = async (_, postId) => {
+//   const { data } = await axios.get(
+//     `https://jsonplaceholder.typicode.com/posts/${postId}`,
+//   )
+//   return data
+// }
+
+// export default function useLoginCustomer(postId) {
+//   return useQuery(['post', postId], getPostById)
+// }

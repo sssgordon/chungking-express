@@ -12,14 +12,7 @@ import {
 
 export const handler = async (event: APIGatewayEvent): Promise<any> => {
   if (event.httpMethod !== 'POST' || !event.body) return statusReturn(400, '')
-  const queryType = event.queryParamater
-  switch (queryType) {
-    case 'CUSTOMER_ADDRESS_UPDATE':
-      break
 
-    default:
-      break
-  }
   let data: {
     token: string
     id?: string

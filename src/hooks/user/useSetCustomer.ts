@@ -4,6 +4,7 @@ import {
   MailingAddressConnection,
   OrderConnection,
 } from 'shopify-storefront-api-typings'
+
 export function useSetCustomer() {
   async function setCustomer(
     res: {

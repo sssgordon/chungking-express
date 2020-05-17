@@ -149,6 +149,19 @@ const CUSTOMER_ACTIVATE_QUERY = `mutation customerActivate($id: ID!, $input: Cus
   }
 }`
 
+const CUSTOMER_ADDRESS_CREATE = `mutation customerAddressCreate($customerAccessToken: String!, $address: MailingAddressInput!) {
+  customerAddressCreate(customerAccessToken: $customerAccessToken, address: $address) {
+    customerAddress {
+      id
+    }
+    customerUserErrors {
+      code
+      field
+      message
+    }
+  }
+}`
+
 const CUSTOMER_ADDRESS_UPDATE = `mutation customerAddressUpdate($customerAccessToken: String!, $id: ID!, $address: MailingAddressInput!) {
   customerAddressUpdate(customerAccessToken: $customerAccessToken, id: $id, address: $address) {
     customerAddress {
@@ -190,5 +203,6 @@ export {
   CUSTOMER_CREATE_QUERY,
   CUSTOMER_RESET_QUERY,
   CUSTOMER_ACTIVATE_QUERY,
+  CUSTOMER_ADDRESS_CREATE,
   CUSTOMER_ADDRESS_UPDATE,
 }
