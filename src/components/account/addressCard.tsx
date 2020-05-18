@@ -10,16 +10,7 @@ interface AddressCardProps {
 const AddressCard = ({ address, isDefaultAddress }: AddressCardProps) => {
   const [toggleForm, setToggleForm] = useState(false)
   return (
-    <div
-      style={{
-        backgroundColor: isDefaultAddress
-          ? 'var(--yellow)'
-          : 'var(--lightGrey)',
-        width: 'calc(50% - var(--size) / 2)',
-        margin: 'calc(var(--size) / 4)',
-        padding: 'calc(var(--size) / 2)',
-      }}
-    >
+    <div>
       {!toggleForm ? (
         <>
           <b>{isDefaultAddress ? 'Default address' : 'Address'}</b>

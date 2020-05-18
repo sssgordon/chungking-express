@@ -17,8 +17,6 @@ const Header = () => {
           width: '100%',
           display: 'flex',
           justifyContent: 'space-between',
-          backgroundColor: 'var(--dark)',
-          padding: 'calc(var(--size) / 2)',
         }}
       >
         <button onClick={() => toggleMenu()}>

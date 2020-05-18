@@ -24,14 +24,7 @@ const CustomerAddressPanel = ({ user }: CustomerAddressProps) => {
               return <AddressCard key={node.id} address={node} />
             }
           })}
-        <div
-          style={{
-            backgroundColor: 'var(--green)',
-            width: 'calc(50% - var(--size) / 2)',
-            margin: 'calc(var(--size) / 4)',
-            padding: 'calc(var(--size) / 2)',
-          }}
-        >
+        <div>
           <AddressForm formType='Create' />
         </div>
       </div>

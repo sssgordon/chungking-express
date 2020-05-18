@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import ShopifyBuy from 'shopify-buy'
 import { LocalStorage, LocalStorageKeys } from './utils'
 

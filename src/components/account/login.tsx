@@ -17,7 +17,7 @@ export const Login = ({ path }: { path: string }) => {
   }
   useEffect(() => {
     if (response) {
-      navigate('/')
+      navigate('/account')
     }
   }, [response])
 

@@ -15,6 +15,7 @@ export { useToggleCart } from './layout/useToggleCart'
 export { useToggleMenu } from './layout/useToggleMenu'
 export { useLayout } from './layout/useLayout'
 
+export { useCreateAddress } from './user/useCreateAddress'
 export { useCustomer } from './user/useCustomer'
 export { useSetCustomer } from './user/useSetCustomer'
 export { useLoginCustomer } from './user/useLoginCustomer'

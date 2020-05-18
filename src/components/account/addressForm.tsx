@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { Formik, Form, Field } from 'formik'
-import { MailingAddress } from 'shopify-storefront-api-typings'
-import { useCustomer } from '../../hooks'
+import {
+  MailingAddress,
+  MailingAddressInput,
+} from 'shopify-storefront-api-typings'
+import { useCustomer, useCreateAddress } from '../../hooks'
 
 interface AddressFormProps {
   formType: string
@@ -14,26 +17,26 @@ const AddressForm = ({
   currentAddress,
   setToggleForm,
 }: AddressFormProps) => {
-  const getInitialValues = address => ({
+  const getInitialValues = (address: MailingAddressInput) => ({
     address1: address.address1 || '',
     address2: address.address2 || '',
     city: address.city || '',
     company: address.company || '',
     country: address.country || '',
     firstName: address.firstName || '',
-    id: address.id || '',
     lastName: address.lastName || '',
     phone: address.phone || '',
     province: address.province || '',
     zip: address.zip || '',
   })
-
+  const user = useCustomer()
+  const [createAddress, { response, loading, error }] = useCreateAddress()
+  console.log(response)
   return (
     <Formik
       initialValues={getInitialValues(currentAddress || {})}
       onSubmit={values => {
-        // same shape as initial values
-        console.log(values)
+        createAddress(user.token, values)
       }}
     >
       <Form>
@@ -80,8 +83,11 @@ const AddressForm = ({
               Cancel
             </button>
           )}
-          <button type='submit'>Submit</button>
+          <button disabled={loading} type='submit'>
+            {loading ? '...Loading' : 'Submit'}
+          </button>
         </ul>
+        {error && <span>{error}</span>}
       </Form>
     </Formik>
   )

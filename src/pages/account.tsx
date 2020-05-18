@@ -1,6 +1,5 @@
 import React from 'react'
 import { Router } from '@reach/router'
-
 import AuthWrapper from '../components/account/authWrapper'
 // @ts-ignore
 import Activate from '../components/account/activate'

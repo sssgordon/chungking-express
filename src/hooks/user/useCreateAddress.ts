@@ -1,29 +1,30 @@
 import { useState } from 'react'
-import { useSetCustomer } from './useSetCustomer'
+import { MailingAddressInput } from 'shopify-storefront-api-typings'
 
-export interface Istate {
+interface Istate {
   response?: string
   loading: boolean
   error?: string
 }
 
-export const useLoginCustomer = () => {
-  const setCustomer = useSetCustomer()
+export const useCreateAddress = () => {
   const [state, setState] = useState<Istate | null>({
     response: null,
     loading: false,
     error: null,
   })
 
-  const loginCustomer = async (email: string, password: string) => {
-    if (email && password) {
-      setState({ response: null, loading: true, error: null })
+  const createAddress = async (
+    customerAccessToken: string,
+    address: MailingAddressInput,
+  ) => {
+    if (customerAccessToken && address) {
       try {
-        const data = await fetch(`/.netlify/functions/login`, {
+        const data = await fetch(`/.netlify/functions/create-address`, {
           method: 'POST',
           body: JSON.stringify({
-            email,
-            password,
+            customerAccessToken,
+            address,
           }),
         })
         const res = await data.json()
@@ -35,7 +36,6 @@ export const useLoginCustomer = () => {
           })
         } else {
           console.log(res)
-          setCustomer(res, email)
           setState({
             response: res,
             loading: false,
@@ -57,6 +57,5 @@ export const useLoginCustomer = () => {
       })
     }
   }
-
-  return [loginCustomer, state] as const
+  return [createAddress, state] as const
 }
