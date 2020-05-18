@@ -33,7 +33,7 @@ export const Portal = () => {
         <div>
           Hi! {user.firstName}
           <br />
-          <CustomerAddressPanel user={user} />
+          {user.addresses && <CustomerAddressPanel user={user} />}
           <h5>Orders:</h5>
           <ul>
             {user.orders && user.orders.edges.length >= 1 ? (

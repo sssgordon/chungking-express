@@ -14,19 +14,19 @@ const CustomerAddressPanel = ({ user }: CustomerAddressProps) => {
   const { defaultAddress, addresses } = user
 
   return (
-    <div>
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      {defaultAddress && (
         <AddressCard address={defaultAddress} isDefaultAddress={true} />
-        {addresses &&
-          addresses.edges.length >= 1 &&
-          addresses.edges.map(({ node }) => {
-            if (node.id !== defaultAddress.id) {
-              return <AddressCard key={node.id} address={node} />
-            }
-          })}
-        <div>
-          <AddressForm formType='Create' />
-        </div>
+      )}
+      {addresses &&
+        addresses.edges.length >= 1 &&
+        addresses.edges.map(({ node }) => {
+          if (defaultAddress && node.id !== defaultAddress.id) {
+            return <AddressCard key={node.id} address={node} />
+          }
+        })}
+      <div>
+        <AddressForm formType='Create' />
       </div>
     </div>
   )
