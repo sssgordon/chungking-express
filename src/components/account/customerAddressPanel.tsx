@@ -12,7 +12,7 @@ interface CustomerAddressProps {
 
 const CustomerAddressPanel = ({ user }: CustomerAddressProps) => {
   const { defaultAddress, addresses } = user
-  console.log(user)
+
   return (
     <div>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>

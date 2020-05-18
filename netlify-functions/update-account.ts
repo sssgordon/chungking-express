@@ -39,7 +39,7 @@ exports.handler = async (event: any) => {
   try {
     data = JSON.parse(event.body)
   } catch (error) {
-    console.log('JSON parsing error:', error)
+    console.error('JSON parsing error:', error)
 
     return {
       statusCode: 400,

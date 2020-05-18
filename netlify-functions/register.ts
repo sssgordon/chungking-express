@@ -21,7 +21,7 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
   try {
     data = JSON.parse(event.body)
   } catch (error) {
-    console.log('JSON parsing error:', error)
+    console.error('JSON parsing error:', error)
     return statusReturn(400, { error: 'Bad request body' })
   }
 

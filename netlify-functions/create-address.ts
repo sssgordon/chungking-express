@@ -11,7 +11,6 @@ import {
 } from './requestConfig'
 
 export const handler = async (event: APIGatewayEvent): Promise<any> => {
-  // console.log(event.body)
   if (event.httpMethod !== 'POST' || !event.body)
     return statusReturn(400, 'No Body')
 
@@ -23,7 +22,7 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
   try {
     data = JSON.parse(event.body)
   } catch (error) {
-    console.log('JSON parsing error:', error)
+    console.error('JSON parsing error:', error)
     return statusReturn(400, { error: 'Bad request body' })
   }
 
@@ -31,8 +30,6 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
     customerAccessToken: data.customerAccessToken,
     address: data.address,
   })
-
-  // console.log(`payload: `, payload)
 
   try {
     let customerAddress = await axios({

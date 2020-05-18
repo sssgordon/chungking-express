@@ -31,7 +31,7 @@ const AddressForm = ({
   })
   const user = useCustomer()
   const [createAddress, { response, loading, error }] = useCreateAddress()
-  console.log(response)
+
   return (
     <Formik
       initialValues={getInitialValues(currentAddress || {})}
