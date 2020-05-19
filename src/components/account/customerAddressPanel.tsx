@@ -1,9 +1,5 @@
 import React from 'react'
 import AddressCard from './addressCard'
-import {
-  MailingAddress,
-  MailingAddressConnection,
-} from 'shopify-storefront-api-typings'
 import AddressForm from './addressForm'
 
 interface CustomerAddressProps {
@@ -12,7 +8,6 @@ interface CustomerAddressProps {
 
 const CustomerAddressPanel = ({ user }: CustomerAddressProps) => {
   const { defaultAddress, addresses } = user
-
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
       {defaultAddress && (

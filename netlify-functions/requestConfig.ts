@@ -26,45 +26,47 @@ const CUSTOMER_ADDRESS_QUERY = `
 `
 
 const CUSTOMER_QUERY = `query customerQuery($customerAccessToken: String!){
-  customer(customerAccessToken: $customerAccessToken) {
-    firstName
-    lastName
-    acceptsMarketing
-    phone
-    email
-    defaultAddress {
-      ${CUSTOMER_ADDRESS_QUERY}
-    }
-    addresses(first:100) {
-      edges {
-        node {
+      customer(customerAccessToken: $customerAccessToken) {
+        firstName
+        lastName
+        acceptsMarketing
+        phone
+        email
+        defaultAddress {
           ${CUSTOMER_ADDRESS_QUERY}
         }
-      }
-    }
-    orders(first:100){
-      edges{
-        node{
-          orderNumber
-          totalPrice
-          processedAt
-          statusUrl
-          successfulFulfillments(first: 100){
-            trackingInfo(first: 100){
-              number
-              url
+        addresses(first: 100) {
+          edges {
+            node {
+              ${CUSTOMER_ADDRESS_QUERY}
             }
           }
-          lineItems(first:100){
-            edges{
-              node{
-                quantity
-                title
-                variant{
-                  title
-                  price
-                  image{
-                    originalSrc
+        }
+        orders(first:100){
+          edges{
+            node{
+              orderNumber
+              totalPrice
+              processedAt
+              statusUrl
+              successfulFulfillments(first: 100){
+                trackingInfo(first: 100){
+                  number
+                  url
+                }
+              }
+              lineItems(first:100){
+                edges{
+                  node{
+                    quantity
+                    title
+                    variant{
+                      title
+                      price
+                      image{
+                        originalSrc
+                      }
+                    }
                   }
                 }
               }
@@ -72,9 +74,7 @@ const CUSTOMER_QUERY = `query customerQuery($customerAccessToken: String!){
           }
         }
       }
-    }
-  }
-}`
+    }`
 
 const CUSTOMER_TOKEN_QUERY = `mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
   customerAccessTokenCreate(input: $input) {
@@ -175,6 +175,31 @@ const CUSTOMER_ADDRESS_UPDATE = `mutation customerAddressUpdate($customerAccessT
   }
 }`
 
+const CUSTOMER_ADDRESS_DELETE = `mutation customerAddressDelete($id: ID!, $customerAccessToken: String!) {
+  customerAddressDelete(id: $id, customerAccessToken: $customerAccessToken) {
+    customerUserErrors {
+      code
+      field
+      message
+    }
+    deletedCustomerAddressId
+  }
+}
+`
+
+const CUSTOMER_DEFAULT_ADDRESS_UPDATE = `mutation customerDefaultAddressUpdate($customerAccessToken: String!, $addressId: ID!) {
+  customerDefaultAddressUpdate(customerAccessToken: $customerAccessToken, addressId: $addressId) {
+    customer {
+      id
+    }
+    customerUserErrors {
+      code
+      field
+      message
+    }
+  }
+}`
+
 const statusReturn = (code: number, body: {}) => {
   return {
     statusCode: code,
@@ -205,4 +230,6 @@ export {
   CUSTOMER_ACTIVATE_QUERY,
   CUSTOMER_ADDRESS_CREATE,
   CUSTOMER_ADDRESS_UPDATE,
+  CUSTOMER_ADDRESS_DELETE,
+  CUSTOMER_DEFAULT_ADDRESS_UPDATE,
 }

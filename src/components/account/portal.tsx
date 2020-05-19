@@ -17,7 +17,7 @@ export const Portal = () => {
     if (user) {
       updateCustomer(user)
     }
-  }, [0])
+  }, [])
 
   useEffect(() => {
     if (response) {

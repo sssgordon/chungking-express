@@ -1,29 +1,16 @@
 const axios = require('axios')
-
-const { SHOPIFY_STORE, SHOPIFY_ACCES_TOKEN } = process.env
+import {
+  preparePayload,
+  shopifyConfig,
+  SHOPIFY_STORE,
+  CUSTOMER_QUERY,
+} from './requestConfig'
 
 const headers = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'Content-Type',
   'Content-Type': 'application/json',
 }
-const shopifyConfig = {
-  'Content-Type': 'application/json',
-  'X-Shopify-Storefront-Access-Token': SHOPIFY_ACCES_TOKEN,
-}
-
-const CUSTOMER_ADDRESS = `
-  firstName
-  lastName
-  address1
-  address2
-  company
-  phone
-  city
-  country
-  province
-  zip
-`
 
 exports.handler = async (event: any) => {
   if (event.httpMethod !== 'POST' || !event.body) {
@@ -48,63 +35,19 @@ exports.handler = async (event: any) => {
       }),
     }
   }
-
-  const payloadCustomer = {
-    query: `query customerQuery($customerAccessToken: String!){
-      customer(customerAccessToken: $customerAccessToken) {
-        firstName
-        lastName
-        acceptsMarketing
-        phone
-        email
-        defaultAddress {
-          ${CUSTOMER_ADDRESS}
-        }
-        orders(first:100){
-          edges{
-            node{
-              orderNumber
-              totalPrice
-              processedAt
-              statusUrl
-              successfulFulfillments(first: 100){
-                trackingInfo(first: 100){
-                  number
-                  url
-                }
-              }
-              lineItems(first:100){
-                edges{
-                  node{
-                    quantity
-                    title
-                    variant{
-                      title
-                      price
-                      image{
-                        originalSrc
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }`,
-    variables: {
-      customerAccessToken: data.accessToken,
-    },
-  }
+  const payload = preparePayload(CUSTOMER_QUERY, {
+    customerAccessToken: data,
+  })
 
   try {
     let customer = await axios({
       url: `https://${SHOPIFY_STORE}.myshopify.com/api/graphql`,
       method: 'POST',
       headers: shopifyConfig,
-      data: JSON.stringify(payloadCustomer),
+      data: JSON.stringify(payload),
     })
+
+    console.log(customer.data)
     customer = customer.data.data.customer
 
     let response = {

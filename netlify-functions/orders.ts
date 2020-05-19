@@ -23,7 +23,7 @@ export const handler = async (event: APIGatewayEvent): Promise<any> => {
   }
 
   const payload = preparePayload(CUSTOMER_QUERY, {
-    customerAccessToken: data.token,
+    customerAccessToken: data,
   })
 
   try {

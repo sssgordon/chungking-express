@@ -4,7 +4,8 @@ import {
   MailingAddress,
   MailingAddressInput,
 } from 'shopify-storefront-api-typings'
-import { useCustomer, useCreateAddress } from '../../hooks'
+import { useCustomer, useCreateAddress, useUpdateCustomer } from '../../hooks'
+import { useCustomerAddress } from '../../hooks/user/useCustomerAddress'
 
 interface AddressFormProps {
   formType: string
@@ -30,13 +31,18 @@ const AddressForm = ({
     zip: address.zip || '',
   })
   const user = useCustomer()
-  const [createAddress, { response, loading, error }] = useCreateAddress()
-
+  const [
+    { createAddress, updateAddress },
+    { response, loading, error },
+  ] = useCustomerAddress()
   return (
     <Formik
       initialValues={getInitialValues(currentAddress || {})}
       onSubmit={values => {
-        createAddress(user.token, values)
+        console.log(currentAddress.id)
+        formType === 'Create'
+          ? createAddress(user.token, values)
+          : updateAddress(user.token, currentAddress.id, values)
       }}
     >
       <Form>

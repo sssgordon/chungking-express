@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { MailingAddress } from 'shopify-storefront-api-typings'
 import AddressForm from './addressForm'
+import { useCustomer } from '../../hooks'
+import { useCustomerAddress } from '../../hooks/user/useCustomerAddress'
 
 interface AddressCardProps {
   address: MailingAddress
@@ -8,7 +10,14 @@ interface AddressCardProps {
 }
 
 const AddressCard = ({ address, isDefaultAddress }: AddressCardProps) => {
+  console.log(address)
   const [toggleForm, setToggleForm] = useState(false)
+  const [
+    { updateDefaultAddress, deleteAddress },
+    { response, loading, error },
+  ] = useCustomerAddress()
+  const user = useCustomer()
+
   return (
     <div>
       {!toggleForm ? (
@@ -27,12 +36,18 @@ const AddressCard = ({ address, isDefaultAddress }: AddressCardProps) => {
             <li>
               <button onClick={() => setToggleForm(true)}>Update</button>
               {!isDefaultAddress && (
-                <button onClick={() => console.log('make default')}>
+                <button
+                  onClick={() => updateDefaultAddress(user.token, address.id)}
+                >
                   Make default
                 </button>
               )}
+              <button onClick={() => deleteAddress(user.token, address.id)}>
+                Remove
+              </button>
             </li>
           </ul>
+          {error && <span>{error}</span>}
         </>
       ) : (
         <AddressForm
