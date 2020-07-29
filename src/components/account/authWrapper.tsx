@@ -14,7 +14,8 @@ const AuthWrapper = (props: Props) => {
 
   useEffect(() => {
     if (!user) {
-      navigate('/account/login')
+      typeof window !== 'undefined' &&
+        window.location.replace(window.location.origin + '/account/login')
     }
 
     setReady(true)
