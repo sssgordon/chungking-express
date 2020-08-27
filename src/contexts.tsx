@@ -54,8 +54,9 @@ export function StoreContextProvider({ children }) {
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
-        const cartHasBeenPurchased = refreshedCart.completedAt != null
-        if (cartHasBeenPurchased) {
+        const cartHasBeenPurchased =
+          refreshedCart && refreshedCart.completedAt != null
+        if (cartHasBeenPurchased || cartHasBeenPurchased === null) {
           getNewCart()
         } else {
           setCart(refreshedCart)
