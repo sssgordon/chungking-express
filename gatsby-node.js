@@ -6,7 +6,7 @@ exports.createPages = async ({ actions, graphql }) => {
 
   const pageQuery = await graphql(`
     {
-      allContentfulHome {
+      allContentfulHomePage {
         nodes {
           id
           __typename

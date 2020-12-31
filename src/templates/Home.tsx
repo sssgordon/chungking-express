@@ -1,33 +1,29 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import SEO from '../components/shared/SEO'
+import Hero from '../components/home/Hero'
+import { renderSections } from '../components/shared/Sections'
 
 export interface homeProps {
   data: {
-    contentfulHome: {
-      seoTitle: string
-      seoDescription: string
+    contentfulHomePage: {
+      heroImageDesktop: {
+        title: string
+        fluid: string
+      }
+      sections: any
     }
   }
 }
 
-const Home = ({ data: { contentfulHome } }: homeProps) => {
-  const { seoTitle, seoDescription } = contentfulHome
+const Home = ({ data: { contentfulHomePage } }: homeProps) => {
+  const { heroImageDesktop, sections } = contentfulHomePage
+
+  // console.log(sections)
 
   return (
     <>
-      <SEO title={seoTitle} description={seoDescription} />
-      <br />
-      <br />
-      <h1>Phill Simple</h1>
-      <img
-        style={{
-          width: '100%',
-        }}
-        src='https://images.cdn.superguide.nl/fx_ZxsG2pfmkAre6rBFIz4FYm4s=/1200x630/smart/superguide.nl/s3fs-public/main_media/wtf_dr._phil_zet_huis_met_bizarre_inrichting_te_koop.jpg?itok=iHzszsbk&nid=30255'
-      />
-      <br />
-      <br />
+      <Hero heroImageDesktop={heroImageDesktop} />
+      {renderSections(sections)}
     </>
   )
 }
@@ -36,9 +32,26 @@ export default Home
 
 export const HomePageQuery = graphql`
   query HomePage($id: String!) {
-    contentfulHome(id: { eq: $id }) {
-      seoTitle
-      seoDescription
+    contentfulHomePage(id: { eq: $id }) {
+      heroImageDesktop {
+        title
+        fluid(sizes: "(max-width: 1023px) 100vw, 100vw") {
+          ...GatsbyContentfulFluid_withWebp_noBase64
+        }
+      }
+      sections {
+        ... on ContentfulSectionText {
+          text
+        }
+        ... on ContentfulSectionImage {
+          images {
+            title
+            fluid(sizes: "(max-width: 1023px) 100vw, 100vw") {
+              ...GatsbyContentfulFluid_withWebp_noBase64
+            }
+          }
+        }
+      }
     }
   }
 `
