@@ -21,7 +21,7 @@ const StyledSection = styled.section`
 
 const Text = styled.p`
   font-size: ${desktopVW(40)};
-  font-weight: 300;
+  font-weight: 100;
   transform: skewX(-15deg);
   color: white;
 `

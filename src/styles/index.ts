@@ -8,6 +8,10 @@ export const desktopVW = px => {
   return `${(px / 1440) * 100}vw`
 }
 
+export const desktopVH = px => {
+  return `${(px / 1024) * 100}vh`
+}
+
 export const easing = {
   linear: 'cubic-bezier( 0.250, 0.250, 0.750, 0.750)',
   inQuad: 'cubic-bezier( 0.26, 0, 0.6, 0.2 )',

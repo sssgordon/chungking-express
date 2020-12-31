@@ -1,12 +1,13 @@
 import React from 'react'
 import SectionText from '../SectionText'
+import SectionImage from '../SectionImage'
 
 const Sections = ({ type, data }) => {
   switch (type) {
     case 'ContentfulSectionText':
       return <SectionText data={data} />
     case 'ContentfulSectionImage':
-      return null
+      return <SectionImage data={data} />
     default:
       return <span>{type}</span>
   }
