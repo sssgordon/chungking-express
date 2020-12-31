@@ -54,7 +54,7 @@ const SectionImage = ({ data: { images } }) => {
 
 const StyledSection = styled.section`
   width: 100vw;
-  height: ${({ imageCount }) => (imageCount / 3) * 100}vw;
+  height: ${({ imageCount }) => (imageCount / 4) * 100}vw;
 
   padding: ${desktopVH(200)} ${desktopVW(200)};
 `
