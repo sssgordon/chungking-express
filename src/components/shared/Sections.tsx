@@ -1,6 +1,7 @@
 import React from 'react'
 import SectionText from '../SectionText'
 import SectionImage from '../SectionImage'
+import SectionTextVideo from '../SectionTextVideo'
 
 const Sections = ({ type, data }) => {
   switch (type) {
@@ -8,6 +9,8 @@ const Sections = ({ type, data }) => {
       return <SectionText data={data} />
     case 'ContentfulSectionImage':
       return <SectionImage data={data} />
+    case 'ContentfulSectionTextVideo':
+      return <SectionTextVideo data={data} />
     default:
       return <span>{type}</span>
   }

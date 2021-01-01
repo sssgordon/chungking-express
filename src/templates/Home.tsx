@@ -18,8 +18,6 @@ export interface homeProps {
 const Home = ({ data: { contentfulHomePage } }: homeProps) => {
   const { heroImageDesktop, sections } = contentfulHomePage
 
-  // console.log(sections)
-
   return (
     <>
       <Hero heroImageDesktop={heroImageDesktop} />
@@ -54,6 +52,32 @@ export const HomePageQuery = graphql`
             }
             scrub
             text
+          }
+          ... on ContentfulSectionTextVideo {
+            video {
+              mp4 {
+                file {
+                  url
+                }
+              }
+              webm {
+                file {
+                  url
+                }
+              }
+              poster {
+                title
+                fluid(sizes: "(max-width: 1023px) 100vw, 50vw") {
+                  ...GatsbyContentfulFluid_withWebp_noBase64
+                }
+              }
+            }
+            paragraphOne {
+              json
+            }
+            paragraphTwo {
+              json
+            }
           }
         }
       }
