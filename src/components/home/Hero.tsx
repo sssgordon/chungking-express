@@ -29,7 +29,7 @@ const Hero = (props: Props) => {
       .set(button, { scale: 0 })
       .set(title, { y: '70%', opacity: 0 })
       .set(image, { scale: 1.2 })
-      .to(image, { scale: 1, duration: 1.5, delay: 0.5, ease: 'power2.inOut' })
+      .to(image, { scale: 1, duration: 1.5, delay: 0.5, ease: 'power3.inOut' })
       .set(title, { opacity: 1 })
       .to(title, { y: '0%', duration: 1.7, ease: 'power4.out' })
       .to(button, { scale: 1, duration: 1, ease: 'power3.inOut' }, '-=0.7')

@@ -13,16 +13,17 @@ const SectionTextVideo = ({ data: { video, paragraphOne, paragraphTwo } }) => {
   const expiryDateRef = useRef()
 
   const days = []
-  for (let i = 12; i < 31; i++) {
+  for (let i = 30; i > 11; i--) {
     days.push(i)
   }
+  const startPos = `${(100 / days.length) * (days.length - 1) * -1}%`
 
   useEffect(() => {
     const date = dateRef.current
     const expiryDate = expiryDateRef.current
 
     gsap.to(date, {
-      y: () => `${(100 / days.length) * (days.length - 1) * -1}%`,
+      y: 0,
       duration: 4,
       delay: 0.5,
       ease: 'power3.inOut',
@@ -33,7 +34,7 @@ const SectionTextVideo = ({ data: { video, paragraphOne, paragraphTwo } }) => {
   return (
     <StyledSection>
       <ExpiryDate ref={expiryDateRef}>
-        <Date ref={dateRef}>
+        <Date ref={dateRef} startPos={startPos}>
           {days.map((day, i) => (
             <Day key={i}>{day}</Day>
           ))}
@@ -59,7 +60,7 @@ const SectionTextVideo = ({ data: { video, paragraphOne, paragraphTwo } }) => {
 
 const StyledSection = styled.section`
   width: 100vw;
-  height: 100vh;
+  height: ${desktopVW(1024)};
   position: relative;
 
   display: flex;
@@ -71,7 +72,7 @@ const ExpiryDate = styled.div`
   font-size: ${desktopVW(120)};
   z-index: 10;
   position: relative;
-  font-family: 'DM Mono';
+  font-family: 'Cutive Mono';
   font-weight: 100;
   line-height: 1;
 
@@ -86,6 +87,7 @@ const Date = styled.span`
   position: absolute;
   top: 0;
   left: 0;
+  transform: ${({ startPos }) => `translateY(${startPos})`};
 `
 
 const Day = styled.p``
@@ -96,11 +98,11 @@ const MonthYear = styled.span`
 
 const VideoWrapper = styled.div`
   position: absolute;
-  top: ${desktopVH(80)};
+  top: ${desktopVW(80)};
   right: 0;
 
   width: ${desktopVW(589)};
-  height: ${desktopVH(864)};
+  height: ${desktopVW(864)};
 `
 
 const Paragraph = styled.div`
@@ -108,12 +110,12 @@ const Paragraph = styled.div`
   ${({ two }) =>
     two
       ? `
-  bottom: ${desktopVH(80)};
+  bottom: ${desktopVW(120)};
   `
       : `
-  top: ${desktopVH(80)};
+  top: ${desktopVW(120)};
   `};
-  left: ${desktopVW(80)};
+  left: ${desktopVW(100)};
 
   p {
     font-size: ${desktopVW(26)};

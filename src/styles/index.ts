@@ -13,8 +13,8 @@ export const desktopVH = px => {
 }
 
 export const zIndex = {
-  high: 999,
-  medium: 99,
+  high: 99,
+  medium: 50,
   low: 1,
 }
 

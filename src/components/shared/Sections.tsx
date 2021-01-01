@@ -3,6 +3,7 @@ import SectionText from '../SectionText'
 import SectionImage from '../SectionImage'
 import SectionTextVideo from '../SectionTextVideo'
 import SectionBridget from '../SectionBridget'
+import SectionImageStatic from '../SectionImageStatic'
 
 const Sections = ({ type, data }) => {
   switch (type) {
@@ -14,6 +15,8 @@ const Sections = ({ type, data }) => {
       return <SectionTextVideo data={data} />
     case 'ContentfulSectionBridget':
       return <SectionBridget data={data} />
+    case 'ContentfulSectionImageStatic':
+      return <SectionImageStatic data={data} />
     default:
       return <span>{type}</span>
   }
