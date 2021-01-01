@@ -7,7 +7,7 @@ import { desktopVW, desktopVH } from '../styles'
 
 gsap.registerPlugin(ScrollTrigger) // register gsap plugin
 
-const SectionImage = ({ data: { images } }) => {
+const SectionImage = ({ data: { images, scrub, text } }) => {
   const sectionRef = useRef()
   const imageWrapperRef = useRef()
   const imageCount = images.length
@@ -17,36 +17,66 @@ const SectionImage = ({ data: { images } }) => {
     const imageWrapper = imageWrapperRef.current
     const images = imageWrapper.querySelectorAll('.gatsby-image-wrapper')
 
-    gsap.to(imageWrapper, {
-      opacity: 1,
-      duration: 1,
-      delay: 0.5,
-      scrollTrigger: {
+    if (scrub) {
+      gsap.to(imageWrapper, {
+        opacity: 1,
+        duration: 1,
+        delay: 0.5,
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 70%',
+        },
+      })
+
+      gsap.to(images, {
+        opacity: 1,
+        stagger: 0.25,
+        duration: 0.2,
+        scrollTrigger: {
+          trigger: section,
+          start: `top top`,
+          end: 'bottom bottom',
+          scrub: true,
+          // markers: true,
+        },
+      })
+    } else {
+      const scrollTrigger = {
         trigger: section,
         start: 'top 70%',
-      },
-    })
+      }
 
-    gsap.to(images, {
-      opacity: 1,
-      stagger: 0.25,
-      duration: 0.2,
-      scrollTrigger: {
-        trigger: section,
-        start: `top top`,
-        end: 'bottom bottom',
-        scrub: true,
-        // markers: true,
-      },
-    })
+      gsap.to(imageWrapper, {
+        opacity: 1,
+        scrollTrigger,
+      })
+
+      const tl = gsap.timeline({
+        repeat: -1,
+        repeatDelay: 2,
+        scrollTrigger,
+      })
+
+      tl.to(images, {
+        opacity: 1,
+        stagger: 0.8,
+        duration: 0.5,
+      })
+    }
   }, [])
 
   return (
-    <StyledSection imageCount={imageCount} ref={sectionRef}>
+    <StyledSection imageCount={imageCount} scrub={scrub} ref={sectionRef}>
       <ImageWrapper ref={imageWrapperRef}>
         {images.map((image, i) => (
-          <StyledImage fluid={image.fluid} alt={image.title} key={i} />
+          <StyledImage
+            fluid={image.fluid}
+            alt={image.title}
+            scrub={scrub}
+            key={i}
+          />
         ))}
+        {text && <Text>{text}</Text>}
       </ImageWrapper>
     </StyledSection>
   )
@@ -54,15 +84,16 @@ const SectionImage = ({ data: { images } }) => {
 
 const StyledSection = styled.section`
   width: 100vw;
-  height: ${({ imageCount }) => (imageCount / 4) * 100}vw;
+  height: ${({ imageCount, scrub }) =>
+    scrub ? `${(imageCount / 4) * 100}vw` : '100vh'};
 
-  padding: ${desktopVH(200)} ${desktopVW(200)};
+  padding: ${desktopVH(150)} ${desktopVW(200)};
 `
 
 const ImageWrapper = styled.div`
   width: 100%;
-  height: ${desktopVH(624)};
-  top: ${desktopVH(200)};
+  height: ${desktopVH(724)};
+  top: ${desktopVH(150)};
   position: sticky;
 
   /* anim init */
@@ -76,15 +107,31 @@ const StyledImage = styled(Image)`
   transform: translate(-50%, -50%);
 
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
 
   /* anim init */
   opacity: 0;
 
-  &:first-of-type {
-    opacity: 1;
-  }
+  ${({ scrub }) =>
+    scrub &&
+    `
+    &:first-of-type {
+      opacity: 1;
+    }
+  `}
+`
+
+const Text = styled.p`
+  font-size: ${desktopVW(21)};
+  width: 100%;
+  color: white;
+  transform: skewX(-15deg);
+  text-align: center;
+  font-weight: 100;
+
+  position: absolute;
+  bottom: ${desktopVW(-55)};
 `
 
 export default SectionImage

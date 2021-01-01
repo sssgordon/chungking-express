@@ -40,15 +40,20 @@ export const HomePageQuery = graphql`
         }
       }
       sections {
-        ... on ContentfulSectionText {
-          text
-        }
-        ... on ContentfulSectionImage {
-          images {
-            title
-            fluid(sizes: "(max-width: 1023px) 100vw, 100vw") {
-              ...GatsbyContentfulFluid_withWebp_noBase64
+        __typename
+        ... on Node {
+          ... on ContentfulSectionText {
+            text
+          }
+          ... on ContentfulSectionImage {
+            images {
+              title
+              fluid(sizes: "(max-width: 1023px) 100vw, 100vw") {
+                ...GatsbyContentfulFluid_withWebp_noBase64
+              }
             }
+            scrub
+            text
           }
         }
       }
