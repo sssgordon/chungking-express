@@ -79,6 +79,14 @@ export const HomePageQuery = graphql`
               json
             }
           }
+          ... on ContentfulSectionBridget {
+            images {
+              title
+              fluid(sizes: "(max-width: 1023px) 100vw, 50vw") {
+                ...GatsbyContentfulFluid_withWebp_noBase64
+              }
+            }
+          }
         }
       }
     }

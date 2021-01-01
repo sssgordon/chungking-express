@@ -2,6 +2,7 @@ import React from 'react'
 import SectionText from '../SectionText'
 import SectionImage from '../SectionImage'
 import SectionTextVideo from '../SectionTextVideo'
+import SectionBridget from '../SectionBridget'
 
 const Sections = ({ type, data }) => {
   switch (type) {
@@ -11,6 +12,8 @@ const Sections = ({ type, data }) => {
       return <SectionImage data={data} />
     case 'ContentfulSectionTextVideo':
       return <SectionTextVideo data={data} />
+    case 'ContentfulSectionBridget':
+      return <SectionBridget data={data} />
     default:
       return <span>{type}</span>
   }
