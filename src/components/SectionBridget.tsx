@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'gatsby-image'
-import { desktopVW, desktopVH, zIndex } from '../styles'
+import { desktopVW, zIndex } from '../styles'
 
 gsap.registerPlugin(ScrollTrigger) // register gsap plugin
 

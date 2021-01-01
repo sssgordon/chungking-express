@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Image from 'gatsby-image'
-import { desktopVW, desktopVH } from '../styles'
+import { desktopVW } from '../styles'
 
 gsap.registerPlugin(ScrollTrigger) // register gsap plugin
 
@@ -39,6 +39,7 @@ const SectionImage = ({ data: { images, scrub, text } }) => {
           scrub: true,
           // markers: true,
         },
+        ease: 'none',
       })
     } else {
       const scrollTrigger = {
@@ -53,21 +54,22 @@ const SectionImage = ({ data: { images, scrub, text } }) => {
 
       const tl = gsap.timeline({
         repeat: -1,
-        repeatDelay: 1.8,
+        repeatDelay: 1.5,
         scrollTrigger,
+        ease: 'none',
       })
 
       tl.to(images, {
         opacity: 1,
-        stagger: 0.85,
-        duration: 0.45,
+        stagger: 0.8,
+        duration: 0.4,
       })
     }
   }, [])
 
   return (
     <StyledSection imageCount={imageCount} scrub={scrub} ref={sectionRef}>
-      <ImageWrapper ref={imageWrapperRef}>
+      <ImageWrapper ref={imageWrapperRef} scrub={scrub}>
         {images.map((image, i) => (
           <StyledImage
             fluid={image.fluid}
@@ -87,13 +89,14 @@ const StyledSection = styled.section`
   height: ${({ imageCount, scrub }) =>
     scrub ? `${(imageCount / 4) * 100}vw` : '100vh'};
 
-  padding: ${desktopVH(150)} ${desktopVW(200)};
+  padding: ${desktopVW(100)} ${desktopVW(200)};
 `
 
 const ImageWrapper = styled.div`
   width: 100%;
-  height: ${desktopVH(724)};
-  top: ${desktopVH(150)};
+  height: ${({ scrub }) =>
+    scrub ? `calc(100vh - ${desktopVW(100)} * 2)` : '100%'};
+  top: ${desktopVW(100)};
   position: sticky;
 
   /* anim init */

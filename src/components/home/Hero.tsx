@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import Image from 'gatsby-image'
 import gsap from 'gsap'
-import { desktopVW, desktopVH } from '../../styles'
+import { desktopVW } from '../../styles'
 import { Icon } from '../../components/shared/Icon'
 
 export interface Props {
@@ -86,13 +86,13 @@ const StyledHero = styled.section`
   justify-content: center;
   align-items: center;
 
-  padding: ${desktopVH(125)} ${desktopVW(72)};
+  padding: ${desktopVW(100)} ${desktopVW(72)};
 `
 
 const TitleWrapper = styled.div`
   overflow: hidden;
   position: absolute;
-  top: ${desktopVH(49)};
+  top: ${desktopVW(40)};
   left: ${desktopVW(72)};
   z-index: 10;
 `
@@ -123,7 +123,7 @@ const Button = styled.button`
   align-items: center;
 
   position: absolute;
-  bottom: ${desktopVW(-55)};
+  bottom: ${desktopVW(-60)};
   right: ${desktopVW(5)};
   transform: translate(-50%, -50%);
   will-change: transform;
