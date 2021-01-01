@@ -53,14 +53,14 @@ const SectionImage = ({ data: { images, scrub, text } }) => {
 
       const tl = gsap.timeline({
         repeat: -1,
-        repeatDelay: 2,
+        repeatDelay: 1.8,
         scrollTrigger,
       })
 
       tl.to(images, {
         opacity: 1,
-        stagger: 0.8,
-        duration: 0.5,
+        stagger: 0.85,
+        duration: 0.45,
       })
     }
   }, [])
