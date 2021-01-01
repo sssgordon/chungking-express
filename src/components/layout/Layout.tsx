@@ -12,7 +12,7 @@ const Layout = ({ children }) => (
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@100;300;400;500;700&display=swap');
 
-  * {
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&display=swap');  * {
     box-sizing: border-box;
     overscroll-behavior: contain; 
     -webkit-touch-callout: none;
