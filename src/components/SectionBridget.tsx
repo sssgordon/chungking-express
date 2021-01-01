@@ -78,48 +78,47 @@ const SectionBridget = ({ data: { images } }) => {
 
 const StyledSection = styled.section`
   width: 100vw;
-  height: ${desktopVH(1663)};
-  padding: ${desktopVH(200)} 0;
+  height: ${desktopVW(1763)};
 
   position: relative;
 `
 
 const ImageOne = styled.div`
   width: ${desktopVW(580)};
-  height: ${desktopVH(322)};
+  height: ${desktopVW(322)};
 
   position: absolute;
-  top: ${desktopVH(200)};
+  top: ${desktopVW(280)};
   right: ${desktopVW(228)};
   z-index: ${zIndex.high};
 `
 
 const ImageTwo = styled.div`
   width: ${desktopVW(720)};
-  height: ${desktopVH(795)};
+  height: ${desktopVW(795)};
 
   position: absolute;
-  top: ${desktopVH(250)};
+  top: ${desktopVW(350)};
   left: 0;
   z-index: ${zIndex.medium};
 `
 
 const ImageThree = styled.div`
   width: ${desktopVW(598)};
-  height: ${desktopVH(399)};
+  height: ${desktopVW(399)};
 
   position: absolute;
-  bottom: ${desktopVH(150)};
+  bottom: ${desktopVW(125)};
   left: ${desktopVW(420)};
   z-index: ${zIndex.low};
 `
 
 const ImageFour = styled.div`
   width: ${desktopVW(257)};
-  height: ${desktopVH(257)};
+  height: ${desktopVW(257)};
 
   position: absolute;
-  bottom: ${desktopVH(125)};
+  bottom: ${desktopVW(125)};
   right: ${desktopVW(200)};
   z-index: ${zIndex.medium};
 `
