@@ -30,8 +30,7 @@ const SectionTenThousandYears = ({ data: { image } }) => {
       ease: 'none',
       scrollTrigger: {
         trigger: section,
-        end: 'top top',
-        markers: true,
+        end: '20% top',
         scrub: true,
       },
     })
@@ -42,8 +41,7 @@ const SectionTenThousandYears = ({ data: { image } }) => {
       ease: 'none',
       scrollTrigger: {
         trigger: section,
-        end: 'top top',
-        markers: true,
+        end: '20% top',
         scrub: true,
       },
     })
@@ -54,8 +52,7 @@ const SectionTenThousandYears = ({ data: { image } }) => {
       ease: 'none',
       scrollTrigger: {
         trigger: section,
-        end: 'top top',
-        markers: true,
+        end: '20% top',
         scrub: true,
       },
     })
@@ -66,8 +63,7 @@ const SectionTenThousandYears = ({ data: { image } }) => {
       ease: 'none',
       scrollTrigger: {
         trigger: section,
-        end: 'top top',
-        markers: true,
+        end: '20% top',
         scrub: true,
       },
     })
@@ -78,8 +74,7 @@ const SectionTenThousandYears = ({ data: { image } }) => {
       ease: 'none',
       scrollTrigger: {
         trigger: section,
-        end: 'top top',
-        markers: true,
+        end: '20% top',
         scrub: true,
       },
     })
@@ -90,8 +85,7 @@ const SectionTenThousandYears = ({ data: { image } }) => {
       ease: 'none',
       scrollTrigger: {
         trigger: section,
-        end: 'top top',
-        markers: true,
+        end: '20% top',
         scrub: true,
       },
     })
