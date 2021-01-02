@@ -49,7 +49,7 @@ const SectionBridget = ({ data: { images } }) => {
     })
 
     gsap.to(imageFour, {
-      yPercent: -10,
+      yPercent: -20,
       ease: 'none',
       scrollTrigger: {
         trigger: section,

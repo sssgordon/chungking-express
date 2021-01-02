@@ -8,10 +8,6 @@ export const desktopVW = px => {
   return `${(px / 1440) * 100}vw`
 }
 
-export const desktopVH = px => {
-  return `${(px / 1024) * 100}vh`
-}
-
 export const zIndex = {
   high: 99,
   medium: 50,
