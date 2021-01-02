@@ -1,19 +1,61 @@
-import React from 'react'
-import { createGlobalStyle } from 'styled-components'
-import { color } from '../../styles'
+import React, { useRef, useEffect } from 'react'
+import gsap from 'gsap'
+import styled, { createGlobalStyle } from 'styled-components'
+import { color, desktopVW } from '../../styles'
 
-const Layout = ({ children }) => (
-  <>
-    <GlobalStyle />
-    <main>{children}</main>
-  </>
-)
+const Layout = ({ children }) => {
+  const cursorRef = useRef()
+
+  useEffect(() => {
+    const circle = cursorRef.current
+
+    gsap.set(circle, { xPercent: -50, yPercent: -50 })
+
+    let pos = { x: 0, y: 0 }
+    let mouse = { x: pos.x, y: pos.y }
+    const speed = 1
+
+    const xSet = gsap.quickSetter(circle, 'x', 'px')
+    const ySet = gsap.quickSetter(circle, 'y', 'px')
+
+    window.addEventListener('mousemove', e => {
+      mouse.x = e.x
+      mouse.y = e.y
+    })
+
+    gsap.ticker.add(() => {
+      pos.x += (mouse.x - pos.x) * speed
+      pos.y += (mouse.y - pos.y) * speed
+      xSet(pos.x)
+      ySet(pos.y)
+    })
+  }, [])
+
+  return (
+    <>
+      <GlobalStyle />
+      <main>{children}</main>
+      <CustomCursor ref={cursorRef} />
+    </>
+  )
+}
+
+const CustomCursor = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  width: ${desktopVW(16)};
+  height: ${desktopVW(16)};
+  border-radius: 100%;
+  background-color: white;
+`
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@100;300;400;500;700&display=swap');
 
   @import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap');
-    
+
   * {
     box-sizing: border-box;
     overscroll-behavior: contain; 
@@ -24,10 +66,11 @@ const GlobalStyle = createGlobalStyle`
     -ms-user-select: none;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
+    cursor: none !important;
     
-    &::-webkit-scrollbar {
+    /* &::-webkit-scrollbar {
       display: none;
-      }
+      } */
   } 
 
   body {
@@ -38,6 +81,8 @@ const GlobalStyle = createGlobalStyle`
     color: #fff;
     background-color: ${color.black};
     scroll-behavior: smooth !important;
+    /* disable elastic-scrolling */
+    overscroll-behavior-y: none;
   }
 
   a {

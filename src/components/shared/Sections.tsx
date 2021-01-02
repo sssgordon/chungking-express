@@ -5,6 +5,8 @@ import SectionTextVideo from '../SectionTextVideo'
 import SectionBridget from '../SectionBridget'
 import SectionImageStatic from '../SectionImageStatic'
 import SectionTenThousandYears from '../SectionTenThousandYears'
+import SectionParallax from '../SectionParallax'
+import SectionFaye from '../SectionFaye'
 
 const Sections = ({ type, data }) => {
   switch (type) {
@@ -20,6 +22,10 @@ const Sections = ({ type, data }) => {
       return <SectionImageStatic data={data} />
     case 'ContentfulSectionTenThousandYears':
       return <SectionTenThousandYears data={data} />
+    case 'ContentfulSectionParallax':
+      return <SectionParallax data={data} />
+    case 'ContentfulSectionFaye':
+      return <SectionFaye data={data} />
     default:
       return <span>{type}</span>
   }

@@ -103,6 +103,25 @@ export const HomePageQuery = graphql`
               }
             }
           }
+          ... on ContentfulSectionParallax {
+            images {
+              title
+              fluid(sizes: "(max-width: 1023px) 100vw, 50vw") {
+                ...GatsbyContentfulFluid_withWebp_noBase64
+              }
+            }
+          }
+          ... on ContentfulSectionFaye {
+            line {
+              json
+            }
+            images {
+              title
+              fluid(sizes: "(max-width: 1023px) 100vw, 50vw") {
+                ...GatsbyContentfulFluid_withWebp_noBase64
+              }
+            }
+          }
         }
       }
     }
