@@ -9,8 +9,10 @@ import RichText from '../components/shared/RichText'
 gsap.registerPlugin(ScrollTrigger) // register gsap plugin
 
 const SectionFaye = ({ data: { line, images } }) => {
+  const sectionRef = useRef()
+
   return (
-    <StyledSection>
+    <StyledSection ref={sectionRef}>
       <Line>
         <RichText json={line.json} />
       </Line>

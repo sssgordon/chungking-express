@@ -1,4 +1,7 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useLayout, useBlackBackground } from '../../hooks'
 import SectionText from '../SectionText'
 import SectionImage from '../SectionImage'
 import SectionTextVideo from '../SectionTextVideo'
@@ -7,25 +10,100 @@ import SectionImageStatic from '../SectionImageStatic'
 import SectionTenThousandYears from '../SectionTenThousandYears'
 import SectionParallax from '../SectionParallax'
 import SectionFaye from '../SectionFaye'
+import SectionHero from '../SectionHero'
+
+gsap.registerPlugin(ScrollTrigger) // register gsap plugin
+
+const blackBackgroundSections = [
+  'ContentfulSectionHero',
+  'ContentfulSectionText',
+  'ContentfulSectionBridget',
+  'ContentfulSectionImage',
+  'ContentfulSectionImageStatic',
+  'ContentfulSectionTenThousandYears',
+  'ContentfulSectionTextVideo',
+]
 
 const Sections = ({ type, data }) => {
+  const sectionRef = useRef()
+
+  const blackBackgroundSection = blackBackgroundSections.find(section =>
+    section === type ? true : false,
+  )
+
+  const setBlackBackground = useBlackBackground()
+
+  useEffect(() => {
+    const section = sectionRef.current
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top center',
+      end: 'bottom center',
+      onToggle: () => {
+        if (blackBackgroundSection) {
+          setBlackBackground(true)
+        } else {
+          setBlackBackground(false)
+        }
+      },
+    })
+  }, [])
+
   switch (type) {
+    case 'ContentfulSectionHero':
+      return (
+        <section ref={sectionRef}>
+          <SectionHero data={data} />
+        </section>
+      )
     case 'ContentfulSectionText':
-      return <SectionText data={data} />
+      return (
+        <section ref={sectionRef}>
+          <SectionText data={data} />
+        </section>
+      )
     case 'ContentfulSectionImage':
-      return <SectionImage data={data} />
+      return (
+        <section ref={sectionRef}>
+          <SectionImage data={data} />
+        </section>
+      )
     case 'ContentfulSectionTextVideo':
-      return <SectionTextVideo data={data} />
+      return (
+        <section ref={sectionRef}>
+          <SectionTextVideo data={data} />
+        </section>
+      )
     case 'ContentfulSectionBridget':
-      return <SectionBridget data={data} />
+      return (
+        <section ref={sectionRef}>
+          <SectionBridget data={data} />
+        </section>
+      )
     case 'ContentfulSectionImageStatic':
-      return <SectionImageStatic data={data} />
+      return (
+        <section ref={sectionRef}>
+          <SectionImageStatic data={data} />
+        </section>
+      )
     case 'ContentfulSectionTenThousandYears':
-      return <SectionTenThousandYears data={data} />
+      return (
+        <section ref={sectionRef}>
+          <SectionTenThousandYears data={data} />
+        </section>
+      )
     case 'ContentfulSectionParallax':
-      return <SectionParallax data={data} />
+      return (
+        <section ref={sectionRef}>
+          <SectionParallax data={data} />
+        </section>
+      )
     case 'ContentfulSectionFaye':
-      return <SectionFaye data={data} />
+      return (
+        <section ref={sectionRef}>
+          <SectionFaye data={data} />
+        </section>
+      )
     default:
       return <span>{type}</span>
   }

@@ -6,12 +6,14 @@ interface InitialLayout {
   cartIsOpen: boolean
   menuIsOpen: boolean
   cursorHover: boolean
+  blackBackground: boolean
 }
 
 const InitialLayoutState = {
   cartIsOpen: false,
   menuIsOpen: false,
   cursorHover: false,
+  blackBackground: true,
 }
 
 interface ContextShape {

@@ -7,9 +7,9 @@ export const useCursorHover = () => {
     setLayout,
   } = useContext(StoreContext)
 
-  const setCursorHover = async () => {
+  const setCursorHover = async boolean => {
     setLayout(prevState => {
-      return { ...prevState, cursorHover: !cursorHover }
+      return { ...prevState, cursorHover: boolean }
     })
   }
 

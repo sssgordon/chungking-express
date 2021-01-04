@@ -2,9 +2,9 @@ import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import Image from 'gatsby-image'
 import gsap from 'gsap'
-import { desktopVW } from '../../styles'
-import { Icon } from '../../components/shared/Icon'
-import { useCursorHover, useLayout } from '../../hooks'
+import { desktopVW } from '../styles'
+import { Icon } from './shared/Icon'
+import { useCursorHover, useLayout } from '../hooks'
 
 export interface Props {
   heroImageDesktop: {
@@ -13,8 +13,7 @@ export interface Props {
   }
 }
 
-const Hero = (props: Props) => {
-  const { heroImageDesktop } = props
+const SectionHero = ({ data: { heroImageDesktop } }) => {
   const titleWrapperRef = useRef()
   const imageRef = useRef()
   const buttonRef = useRef()
@@ -38,10 +37,6 @@ const Hero = (props: Props) => {
       .to(title, { y: '0%', duration: 1.7, ease: 'power4.out' })
       .to(button, { scale: 1, duration: 1, ease: 'power3.inOut' }, '-=0.7')
   }, [])
-
-  useEffect(() => {
-    console.log(cursorHover)
-  }, [cursorHover])
 
   return (
     <StyledHero>
@@ -67,7 +62,7 @@ const Hero = (props: Props) => {
           })
         }
         onMouseEnter={() => {
-          if (!cursorHover) setCursorHover()
+          if (!cursorHover) setCursorHover(true)
 
           gsap.to(buttonRef.current, {
             scale: 0.92,
@@ -75,7 +70,7 @@ const Hero = (props: Props) => {
           })
         }}
         onMouseLeave={() => {
-          if (cursorHover) setCursorHover()
+          if (cursorHover) setCursorHover(false)
 
           gsap.to(buttonRef.current, {
             scale: 1,
@@ -149,4 +144,4 @@ const Button = styled.button`
   }
 `
 
-export default Hero
+export default SectionHero

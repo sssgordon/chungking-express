@@ -7,7 +7,7 @@ import { useLayout } from '../../hooks'
 const Layout = ({ children }) => {
   const cursorRef = useRef()
 
-  const { cursorHover } = useLayout()
+  const { cursorHover, blackBackground } = useLayout()
 
   useEffect(() => {
     const circle = cursorRef.current
@@ -50,9 +50,19 @@ const Layout = ({ children }) => {
     })
   }, [])
 
+  useEffect(() => {
+    // eliminate initial white flash
+    const body = document.querySelector('body')
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        body.style.transition = 'all 0.5s'
+      }, 500)
+    })
+  }, [])
+
   return (
     <>
-      <GlobalStyle />
+      <GlobalStyle blackBackground={blackBackground} />
       <main>{children}</main>
       <CustomCursor ref={cursorRef} cursorHover={cursorHover}>
         <div />
@@ -107,8 +117,10 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: 'Noto Sans HK', sans-serif;
-    color: #fff;
-    background-color: ${color.black};
+    color: ${({ blackBackground }) => (blackBackground ? `#fff` : color.black)};
+    background-color: ${({ blackBackground }) =>
+      blackBackground ? color.black : `#fff`};
+    /* transition: background-color 0.5s, color 0.5s; */
     scroll-behavior: smooth !important;
     /* disable elastic-scrolling */
     overscroll-behavior-y: none;

@@ -15,6 +15,7 @@ export { useToggleCart } from './layout/useToggleCart'
 export { useToggleMenu } from './layout/useToggleMenu'
 export { useLayout } from './layout/useLayout'
 export { useCursorHover } from './layout/useCursorHover'
+export { useBlackBackground } from './layout/useBlackBackground'
 
 export { useCreateAddress } from './user/useCreateAddress'
 export { useCustomer } from './user/useCustomer'
