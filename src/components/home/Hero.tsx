@@ -4,6 +4,7 @@ import Image from 'gatsby-image'
 import gsap from 'gsap'
 import { desktopVW } from '../../styles'
 import { Icon } from '../../components/shared/Icon'
+import { useCursorHover, useLayout } from '../../hooks'
 
 export interface Props {
   heroImageDesktop: {
@@ -17,6 +18,9 @@ const Hero = (props: Props) => {
   const titleWrapperRef = useRef()
   const imageRef = useRef()
   const buttonRef = useRef()
+
+  const { cursorHover } = useLayout()
+  const setCursorHover = useCursorHover()
 
   useEffect(() => {
     const titleWrapper = titleWrapperRef.current
@@ -34,6 +38,10 @@ const Hero = (props: Props) => {
       .to(title, { y: '0%', duration: 1.7, ease: 'power4.out' })
       .to(button, { scale: 1, duration: 1, ease: 'power3.inOut' }, '-=0.7')
   }, [])
+
+  useEffect(() => {
+    console.log(cursorHover)
+  }, [cursorHover])
 
   return (
     <StyledHero>
@@ -58,18 +66,22 @@ const Hero = (props: Props) => {
             behavior: 'smooth',
           })
         }
-        onMouseEnter={() =>
+        onMouseEnter={() => {
+          if (!cursorHover) setCursorHover()
+
           gsap.to(buttonRef.current, {
             scale: 0.92,
             duration: 0.3,
           })
-        }
-        onMouseLeave={() =>
+        }}
+        onMouseLeave={() => {
+          if (cursorHover) setCursorHover()
+
           gsap.to(buttonRef.current, {
             scale: 1,
             duration: 0.3,
           })
-        }
+        }}
       >
         <Icon name='arrow' />
       </Button>

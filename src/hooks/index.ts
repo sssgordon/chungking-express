@@ -14,6 +14,7 @@ export { useUpdateItemQuantity } from './shop/useUpdateItemQuantity'
 export { useToggleCart } from './layout/useToggleCart'
 export { useToggleMenu } from './layout/useToggleMenu'
 export { useLayout } from './layout/useLayout'
+export { useCursorHover } from './layout/useCursorHover'
 
 export { useCreateAddress } from './user/useCreateAddress'
 export { useCustomer } from './user/useCustomer'

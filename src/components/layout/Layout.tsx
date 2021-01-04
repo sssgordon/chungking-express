@@ -1,10 +1,13 @@
 import React, { useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import styled, { createGlobalStyle } from 'styled-components'
-import { color, desktopVW } from '../../styles'
+import { color, desktopVW, easing } from '../../styles'
+import { useLayout } from '../../hooks'
 
 const Layout = ({ children }) => {
   const cursorRef = useRef()
+
+  const { cursorHover } = useLayout()
 
   useEffect(() => {
     const circle = cursorRef.current
@@ -13,15 +16,31 @@ const Layout = ({ children }) => {
 
     let pos = { x: 0, y: 0 }
     let mouse = { x: pos.x, y: pos.y }
-    const speed = 1
+    let speed = 0.7
 
     const xSet = gsap.quickSetter(circle, 'x', 'px')
     const ySet = gsap.quickSetter(circle, 'y', 'px')
 
+    let update
+    let tick = 0
+
     window.addEventListener('mousemove', e => {
-      mouse.x = e.x
-      mouse.y = e.y
+      cancelAnimationFrame(update)
+      update = requestAnimationFrame(() => {
+        mouse.x = e.x
+        mouse.y = e.y
+        // tick++
+        // console.log(tick)
+      })
     })
+
+    // // no raf: fires twice as many times unnecessarily
+    // window.addEventListener('mousemove', e => {
+    //   mouse.x = e.x
+    //   mouse.y = e.y
+    //   tick++
+    //   console.log(tick)
+    // })
 
     gsap.ticker.add(() => {
       pos.x += (mouse.x - pos.x) * speed
@@ -35,7 +54,9 @@ const Layout = ({ children }) => {
     <>
       <GlobalStyle />
       <main>{children}</main>
-      <CustomCursor ref={cursorRef} />
+      <CustomCursor ref={cursorRef} cursorHover={cursorHover}>
+        <div />
+      </CustomCursor>
     </>
   )
 }
@@ -45,10 +66,18 @@ const CustomCursor = styled.div`
   top: 0;
   left: 0;
   pointer-events: none;
-  width: ${desktopVW(16)};
-  height: ${desktopVW(16)};
-  border-radius: 100%;
-  background-color: white;
+  z-index: 9999999;
+
+  /* for hover scale transition; so that this doesn't affect gsap transform */
+  div {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    border: 1px solid grey;
+    transform: ${({ cursorHover }) =>
+      cursorHover ? `scale(1.5)` : `scale(1)`};
+    transition: transform 0.3s ${easing.outQuad};
+  }
 `
 
 const GlobalStyle = createGlobalStyle`

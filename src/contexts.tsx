@@ -5,11 +5,13 @@ import { LocalStorage, LocalStorageKeys } from './utils'
 interface InitialLayout {
   cartIsOpen: boolean
   menuIsOpen: boolean
+  cursorHover: boolean
 }
 
 const InitialLayoutState = {
   cartIsOpen: false,
   menuIsOpen: false,
+  cursorHover: false,
 }
 
 interface ContextShape {
