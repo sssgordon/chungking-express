@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import gsap from 'gsap'
 import styled, { createGlobalStyle } from 'styled-components'
 import { color, desktopVW, easing } from '../../styles'
@@ -6,6 +6,7 @@ import { useLayout } from '../../hooks'
 
 const Layout = ({ children }) => {
   const cursorRef = useRef()
+  const [ready, setReady] = useState(false)
 
   const { cursorHover, blackBackground } = useLayout()
 
@@ -52,17 +53,16 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     // eliminate initial white flash
-    const body = document.querySelector('body')
     window.addEventListener('load', () => {
       setTimeout(() => {
-        body.style.transition = 'all 0.5s'
-      }, 500)
+        setReady(true)
+      }, 100)
     })
   }, [])
 
   return (
     <>
-      <GlobalStyle blackBackground={blackBackground} />
+      <GlobalStyle blackBackground={blackBackground} ready={ready} />
       <main>{children}</main>
       <CustomCursor ref={cursorRef} cursorHover={cursorHover}>
         <div />
@@ -120,7 +120,8 @@ const GlobalStyle = createGlobalStyle`
     color: ${({ blackBackground }) => (blackBackground ? `#fff` : color.black)};
     background-color: ${({ blackBackground }) =>
       blackBackground ? color.black : `#fff`};
-    /* transition: background-color 0.5s, color 0.5s; */
+    transition: ${({ ready }) =>
+      ready ? 'background-color 0.5s, color 0.5s' : 'all 0s ease 0s'};
     scroll-behavior: smooth !important;
     /* disable elastic-scrolling */
     overscroll-behavior-y: none;
