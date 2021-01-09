@@ -1,18 +1,31 @@
 import React, { useRef, useEffect } from 'react'
+import loadable from '@loadable/component'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLayout, useBlackBackground } from '../../hooks'
-import SectionText from '../SectionText'
-import SectionImage from '../SectionImage'
-import SectionTextVideo from '../SectionTextVideo'
-import SectionBridget from '../SectionBridget'
-import SectionImageStatic from '../SectionImageStatic'
-import SectionTenThousandYears from '../SectionTenThousandYears'
-import SectionParallax from '../SectionParallax'
-import SectionFaye from '../SectionFaye'
 import SectionHero from '../SectionHero'
 
+// import SectionText from '../SectionText'
+// import SectionImage from '../SectionImage'
+// import SectionTextVideo from '../SectionTextVideo'
+// import SectionBridget from '../SectionBridget'
+// import SectionImageStatic from '../SectionImageStatic'
+// import SectionTenThousandYears from '../SectionTenThousandYears'
+// import SectionParallax from '../SectionParallax'
+// import SectionFaye from '../SectionFaye'
+
 gsap.registerPlugin(ScrollTrigger) // register gsap plugin
+
+const SectionText = loadable(() => import('../SectionText'))
+const SectionImage = loadable(() => import('../SectionImage'))
+const SectionTextVideo = loadable(() => import('../SectionTextVideo'))
+const SectionBridget = loadable(() => import('../SectionBridget'))
+const SectionImageStatic = loadable(() => import('../SectionImageStatic'))
+const SectionTenThousandYears = loadable(() =>
+  import('../SectionTenThousandYears'),
+)
+const SectionParallax = loadable(() => import('../SectionParallax'))
+const SectionFaye = loadable(() => import('../SectionFaye'))
 
 const blackBackgroundSections = [
   'ContentfulSectionHero',

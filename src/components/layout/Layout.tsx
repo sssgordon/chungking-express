@@ -15,8 +15,8 @@ const Layout = ({ children }) => {
 
     gsap.set(circle, { xPercent: -50, yPercent: -50 })
 
-    let pos = { x: 0, y: 0 }
-    let mouse = { x: pos.x, y: pos.y }
+    let mouse = { x: null, y: null }
+    let pos = { x: null, y: null }
     let speed = 0.7
 
     const xSet = gsap.quickSetter(circle, 'x', 'px')
@@ -28,8 +28,8 @@ const Layout = ({ children }) => {
     window.addEventListener('mousemove', e => {
       cancelAnimationFrame(update)
       update = requestAnimationFrame(() => {
-        mouse.x = e.x
-        mouse.y = e.y
+        mouse.x = e.clientX
+        mouse.y = e.clientY
         // tick++
         // console.log(tick)
       })
