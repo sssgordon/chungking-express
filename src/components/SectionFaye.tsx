@@ -57,32 +57,12 @@ const SectionFaye = ({ data: { line, images } }) => {
       },
     })
 
-    gsap.to(imageFourWrapper, {
-      yPercent: 5,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: section,
-        start: 'center top',
-        scrub: true,
-      },
-    })
-
-    gsap.to(imageFiveWrapper, {
-      yPercent: -5,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: section,
-        start: 'center top',
-        scrub: true,
-      },
-    })
-
     // enter animations
     gsap
       .timeline({
         scrollTrigger: {
           trigger: imageOneWrapper,
-          start: 'top 80%',
+          start: 'top 60%',
         },
       })
       .addLabel('start')
@@ -156,7 +136,7 @@ const SectionFaye = ({ data: { line, images } }) => {
       .timeline({
         scrollTrigger: {
           trigger: imageFourWrapper,
-          start: 'top 80%',
+          start: 'top 70%',
         },
       })
       .addLabel('start')
@@ -182,7 +162,7 @@ const SectionFaye = ({ data: { line, images } }) => {
       .timeline({
         scrollTrigger: {
           trigger: imageFiveWrapper,
-          start: 'top 80%',
+          start: 'top 70%',
         },
       })
       .addLabel('start')
@@ -203,6 +183,75 @@ const SectionFaye = ({ data: { line, images } }) => {
         { scale: 1.5, duration: 1.7, ease: 'power3.out' },
         'start',
       )
+  }, [])
+
+  useEffect(() => {
+    // follow cursor animations
+    const imageOneWrapper = imageOneRef.current
+    const imageTwoWrapper = imageTwoRef.current
+    const imageThreeWrapper = imageThreeRef.current
+    const imageFourWrapper = imageFourRef.current
+    const imageFiveWrapper = imageFiveRef.current
+
+    const xSetOne = gsap.quickSetter(imageOneWrapper, 'x', '%')
+    const ySetOne = gsap.quickSetter(imageOneWrapper, 'y', '%')
+    const xSetTwo = gsap.quickSetter(imageTwoWrapper, 'x', '%')
+    const ySetTwo = gsap.quickSetter(imageTwoWrapper, 'y', '%')
+    const xSetThree = gsap.quickSetter(imageThreeWrapper, 'x', '%')
+    const ySetThree = gsap.quickSetter(imageThreeWrapper, 'y', '%')
+    const xSetFour = gsap.quickSetter(imageFourWrapper, 'x', '%')
+    const ySetFour = gsap.quickSetter(imageFourWrapper, 'y', '%')
+    const xSetFive = gsap.quickSetter(imageFiveWrapper, 'x', '%')
+    const ySetFive = gsap.quickSetter(imageFiveWrapper, 'y', '%')
+
+    let update
+    let mouse = { x: null, y: null }
+    let posOne = { x: null, y: null }
+    let posTwo = { x: null, y: null }
+    let posThree = { x: null, y: null }
+    let posFour = { x: null, y: null }
+    let posFive = { x: null, y: null }
+
+    window.addEventListener('mousemove', e => {
+      cancelAnimationFrame(update)
+      update = requestAnimationFrame(() => {
+        mouse.x = (e.clientX / window.innerWidth) * 100
+        mouse.y = (e.clientY / window.innerHeight) * 100
+      })
+    })
+
+    gsap.ticker.add(() => {
+      const speed = 0.1
+      const rangeOne = 0.05
+      const rangeTwo = 0.15
+      const rangeThree = 0.4
+      const rangeFour = 0.1
+
+      posOne.x += (mouse.x * rangeOne - posOne.x) * speed
+      posOne.y += (mouse.y * rangeOne - posOne.y) * speed
+      xSetOne(posOne.x)
+      ySetOne(posOne.y)
+
+      posTwo.x += (mouse.x * rangeTwo - posTwo.x) * speed
+      posTwo.y += (mouse.y * rangeTwo - posTwo.y) * speed
+      xSetTwo(posTwo.x)
+      ySetTwo(posTwo.y)
+
+      posThree.x += (mouse.x * rangeThree - posThree.x) * speed
+      posThree.y += (mouse.y * rangeThree - posThree.y) * speed
+      xSetThree(posThree.x)
+      ySetThree(posThree.y)
+
+      posFour.x += (mouse.x * rangeFour - posFour.x) * speed
+      posFour.y += (mouse.y * rangeFour - posFour.y) * speed
+      xSetFour(posFour.x)
+      ySetFour(posFour.y)
+
+      posFive.x += (mouse.x * rangeFour - posFive.x) * speed
+      posFive.y += (mouse.y * rangeFour - posFive.y) * speed
+      xSetFive(posFive.x)
+      ySetFive(posFive.y)
+    })
   }, [])
 
   return (
@@ -250,6 +299,7 @@ const Line = styled.div`
 const ImageOne = styled.div`
   width: ${desktopVW(623)};
   height: ${desktopVW(751)};
+  overflow: hidden;
 
   position: absolute;
   top: ${desktopVW(80)};

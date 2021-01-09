@@ -53,11 +53,9 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     // eliminate initial white flash
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        setReady(true)
-      }, 100)
-    })
+    setTimeout(() => {
+      setReady(true)
+    }, 100)
   }, [])
 
   return (
