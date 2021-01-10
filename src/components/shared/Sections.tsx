@@ -5,27 +5,29 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLayout, useBlackBackground } from '../../hooks'
 import SectionHero from '../SectionHero'
 
-// import SectionText from '../SectionText'
-// import SectionImage from '../SectionImage'
-// import SectionTextVideo from '../SectionTextVideo'
-// import SectionBridget from '../SectionBridget'
-// import SectionImageStatic from '../SectionImageStatic'
-// import SectionTenThousandYears from '../SectionTenThousandYears'
-// import SectionParallax from '../SectionParallax'
-// import SectionFaye from '../SectionFaye'
+import SectionText from '../SectionText'
+import SectionImage from '../SectionImage'
+import SectionTextVideo from '../SectionTextVideo'
+import SectionBridget from '../SectionBridget'
+import SectionImageStatic from '../SectionImageStatic'
+import SectionTenThousandYears from '../SectionTenThousandYears'
+import SectionParallax from '../SectionParallax'
+import SectionFaye from '../SectionFaye'
+import SectionLinks from '../SectionLinks'
+
+// const SectionText = loadable(() => import('../SectionText'))
+// const SectionImage = loadable(() => import('../SectionImage'))
+// const SectionTextVideo = loadable(() => import('../SectionTextVideo'))
+// const SectionBridget = loadable(() => import('../SectionBridget'))
+// const SectionImageStatic = loadable(() => import('../SectionImageStatic'))
+// const SectionTenThousandYears = loadable(() =>
+//   import('../SectionTenThousandYears'),
+// )
+// const SectionParallax = loadable(() => import('../SectionParallax'))
+// const SectionFaye = loadable(() => import('../SectionFaye'))
+// const SectionLinks = loadable(() => import('../SectionLinks'))
 
 gsap.registerPlugin(ScrollTrigger) // register gsap plugin
-
-const SectionText = loadable(() => import('../SectionText'))
-const SectionImage = loadable(() => import('../SectionImage'))
-const SectionTextVideo = loadable(() => import('../SectionTextVideo'))
-const SectionBridget = loadable(() => import('../SectionBridget'))
-const SectionImageStatic = loadable(() => import('../SectionImageStatic'))
-const SectionTenThousandYears = loadable(() =>
-  import('../SectionTenThousandYears'),
-)
-const SectionParallax = loadable(() => import('../SectionParallax'))
-const SectionFaye = loadable(() => import('../SectionFaye'))
 
 const blackBackgroundSections = [
   'ContentfulSectionHero',
@@ -115,6 +117,12 @@ const Sections = ({ type, data }) => {
       return (
         <section ref={sectionRef}>
           <SectionFaye data={data} />
+        </section>
+      )
+    case 'ContentfulSectionLinks':
+      return (
+        <section ref={sectionRef}>
+          <SectionLinks data={data} />
         </section>
       )
     default:
