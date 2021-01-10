@@ -33,7 +33,7 @@ const blackBackgroundSections = [
   'ContentfulSectionHero',
   'ContentfulSectionText',
   'ContentfulSectionBridget',
-  'ContentfulSectionImage',
+  // 'ContentfulSectionImage',
   'ContentfulSectionImageStatic',
   'ContentfulSectionTenThousandYears',
   'ContentfulSectionTextVideo',
@@ -55,10 +55,14 @@ const Sections = ({ type, data }) => {
       start: 'top center',
       end: 'bottom center',
       onToggle: () => {
-        if (blackBackgroundSection) {
+        if (data.blackBackground) {
           setBlackBackground(true)
         } else {
-          setBlackBackground(false)
+          if (blackBackgroundSection) {
+            setBlackBackground(true)
+          } else {
+            setBlackBackground(false)
+          }
         }
       },
     })

@@ -39,7 +39,7 @@ const SectionTextVideo = ({ data: { video, paragraphOne, paragraphTwo } }) => {
             <Day key={i}>{day}</Day>
           ))}
         </Date>
-        <MonthYear>&nbsp;&nbsp;&nbsp;May 1994</MonthYear>
+        <MonthYear>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;May 1994</MonthYear>
       </ExpiryDate>
       <VideoWrapper>
         <Video mp4={video.mp4} webm={video.webm} poster={video.poster} />

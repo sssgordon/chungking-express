@@ -44,6 +44,7 @@ export const HomePageQuery = graphql`
             }
             scrub
             text
+            blackBackground
           }
           ... on ContentfulSectionTextVideo {
             video {

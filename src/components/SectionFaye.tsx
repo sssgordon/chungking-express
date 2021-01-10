@@ -282,6 +282,7 @@ const StyledSection = styled.section`
   width: 100vw;
   height: ${desktopVW(2145)};
   position: relative;
+  overflow: hidden;
 `
 
 const Line = styled.div`

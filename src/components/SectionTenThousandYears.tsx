@@ -31,7 +31,7 @@ const SectionTenThousandYears = ({ data: { image } }) => {
       scrollTrigger: {
         trigger: section,
         end: '20% top',
-        scrub: true,
+        scrub: 0.5,
       },
     })
 
@@ -42,7 +42,7 @@ const SectionTenThousandYears = ({ data: { image } }) => {
       scrollTrigger: {
         trigger: section,
         end: '20% top',
-        scrub: true,
+        scrub: 0.5,
       },
     })
 
@@ -53,7 +53,7 @@ const SectionTenThousandYears = ({ data: { image } }) => {
       scrollTrigger: {
         trigger: section,
         end: '20% top',
-        scrub: true,
+        scrub: 0.5,
       },
     })
 
@@ -64,7 +64,7 @@ const SectionTenThousandYears = ({ data: { image } }) => {
       scrollTrigger: {
         trigger: section,
         end: '20% top',
-        scrub: true,
+        scrub: 0.5,
       },
     })
 
@@ -75,7 +75,7 @@ const SectionTenThousandYears = ({ data: { image } }) => {
       scrollTrigger: {
         trigger: section,
         end: '20% top',
-        scrub: true,
+        scrub: 0.5,
       },
     })
 
@@ -86,7 +86,7 @@ const SectionTenThousandYears = ({ data: { image } }) => {
       scrollTrigger: {
         trigger: section,
         end: '20% top',
-        scrub: true,
+        scrub: 0.5,
       },
     })
   }, [])
@@ -109,6 +109,7 @@ const StyledSection = styled.section`
   width: 100vw;
   height: ${desktopVW(1024)};
   position: relative;
+  overflow: hidden;
 
   p {
     font-size: ${desktopVW(280)};

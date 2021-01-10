@@ -105,9 +105,9 @@ const GlobalStyle = createGlobalStyle`
     -webkit-tap-highlight-color: transparent;
     cursor: none !important;
     
-    /* &::-webkit-scrollbar {
+    &::-webkit-scrollbar {
       display: none;
-      } */
+      }
   } 
 
   body {
