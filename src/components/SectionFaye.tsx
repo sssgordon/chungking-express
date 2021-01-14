@@ -187,6 +187,7 @@ const SectionFaye = ({ data: { line, images } }) => {
 
   useEffect(() => {
     // follow cursor animations
+    const section = sectionRef.current
     const imageOneWrapper = imageOneRef.current
     const imageTwoWrapper = imageTwoRef.current
     const imageThreeWrapper = imageThreeRef.current
@@ -212,7 +213,7 @@ const SectionFaye = ({ data: { line, images } }) => {
     let posFour = { x: null, y: null }
     let posFive = { x: null, y: null }
 
-    window.addEventListener('mousemove', e => {
+    section.addEventListener('mousemove', e => {
       cancelAnimationFrame(update)
       update = requestAnimationFrame(() => {
         mouse.x = (e.clientX / window.innerWidth) * 100

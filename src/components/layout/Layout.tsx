@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import styled, { createGlobalStyle } from 'styled-components'
 import { color, desktopVW, easing } from '../../styles'
 import { useLayout } from '../../hooks'
+import SmoothScroll from '../animation/SmoothScroll'
 
 const Layout = ({ children }) => {
   const cursorRef = useRef()
@@ -61,7 +62,9 @@ const Layout = ({ children }) => {
   return (
     <>
       <GlobalStyle blackBackground={blackBackground} ready={ready} />
+      {/* <SmoothScroll> */}
       <main>{children}</main>
+      {/* </SmoothScroll> */}
       <CustomCursor ref={cursorRef} cursorHover={cursorHover}>
         <div />
       </CustomCursor>
@@ -105,9 +108,9 @@ const GlobalStyle = createGlobalStyle`
     -webkit-tap-highlight-color: transparent;
     cursor: none !important;
     
-    &::-webkit-scrollbar {
+    /* &::-webkit-scrollbar {
       display: none;
-      }
+      } */
   } 
 
   body {
